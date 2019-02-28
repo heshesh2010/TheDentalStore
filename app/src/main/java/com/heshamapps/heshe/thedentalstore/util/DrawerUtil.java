@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.heshamapps.heshe.thedentalstore.Doctor.ViewOrdersFragment;
 import com.heshamapps.heshe.thedentalstore.Login.LoginActivity;
 import com.heshamapps.heshe.thedentalstore.R;
+import com.heshamapps.heshe.thedentalstore.fragment.CartFragment;
+import com.heshamapps.heshe.thedentalstore.fragment.MainFragment;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -24,6 +26,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -34,6 +37,10 @@ public class DrawerUtil {
     private static Drawer mDrawerResult;
     private static AccountHeader mHeaderResult;
     private static ProfileDrawerItem mProfileDrawerItem;
+    private static PrimaryDrawerItem mItemStore;
+    private static PrimaryDrawerItem mItemCart;
+
+
     private static PrimaryDrawerItem mItemLogin;
     private static PrimaryDrawerItem mItemLogout;
     private static PrimaryDrawerItem mItemAdminOrderSetting;
@@ -47,9 +54,9 @@ public class DrawerUtil {
     private static UserSession session;
 
     @SuppressLint("StaticFieldLeak")
-    private static Activity activity;
+    private static FragmentActivity activity;
 
-    public DrawerUtil(Activity activity, Toolbar mToolbar, FirebaseAuth mFirebaseAuth) {
+    public DrawerUtil(FragmentActivity activity, Toolbar mToolbar, FirebaseAuth mFirebaseAuth) {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         DrawerUtil.mFirebaseUser =mFirebaseAuth.getCurrentUser();
         DrawerUtil.mFirebaseAuth=mFirebaseAuth;
@@ -66,7 +73,7 @@ public class DrawerUtil {
                             .withActivity(activity)
                             .withAccountHeader(setupAccountHeader())
                             .withToolbar(mToolbar)
-                            .addDrawerItems(mItemLogin, new DividerDrawerItem(),mItemAdminOrderSetting)
+                            .addDrawerItems(mItemStore,mItemCart,mItemLogout, new DividerDrawerItem(),mItemAdminOrderSetting,mItemAbout)
                             .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                                 @Override
                                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -83,7 +90,7 @@ public class DrawerUtil {
                             .withActivity(activity)
                             .withAccountHeader(setupAccountHeader())
                             .withToolbar(mToolbar)
-                            .addDrawerItems(mItemLogin, new DividerDrawerItem(),mItemDoctorOrderSetting)
+                            .addDrawerItems(mItemStore,mItemCart,mItemLogout, new DividerDrawerItem(),mItemDoctorOrderSetting,mItemAbout)
                             .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                                 onNavDrawerItemSelected((int)drawerItem.getIdentifier());
                                 return true;
@@ -102,7 +109,7 @@ public class DrawerUtil {
                     .withActivity(activity)
                     .withAccountHeader(setupAccountHeader())
                     .withToolbar(mToolbar)
-                    .addDrawerItems( mItemLogin, new DividerDrawerItem())
+                    .addDrawerItems( mItemStore,mItemCart,new DividerDrawerItem() ,mItemLogin, mItemAbout)
                     .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -132,11 +139,16 @@ public class DrawerUtil {
         mItemVerifiedProfile = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.verified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_verified_user_black_24dp));
         mItemUnverifiedProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.unverified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_report_problem_black_24dp));
 
-        mItemLogin = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.login_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
-        mItemLogout = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.logout_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_logout_black_48dp));
-        mItemAdminOrderSetting = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.adminOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
-        mItemDoctorOrderSetting = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.settings).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
-        mItemAbout = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.about).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+
+
+        mItemStore = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.store).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
+       mItemCart= new PrimaryDrawerItem().withIdentifier(4).withName(R.string.cart).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
+
+        mItemLogin = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.login_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
+        mItemLogout = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.logout_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_logout_black_48dp));
+        mItemAdminOrderSetting = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.adminOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+        mItemDoctorOrderSetting = new PrimaryDrawerItem().withIdentifier(8).withName(R.string.settings).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+        mItemAbout = new PrimaryDrawerItem().withIdentifier(9).withName(R.string.about).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
 
 
     }
@@ -194,29 +206,39 @@ public class DrawerUtil {
 
     private static void onNavDrawerItemSelected(int drawerItemIdentifier){
         switch (drawerItemIdentifier){
-            //Sign In
+
+            //store
             case 3:
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
+                break;
+
+            //cart
+            case 4:
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+                break;
+
+            //Sign In
+            case 5:
                 activity.startActivity(new Intent(activity.getApplicationContext(), LoginActivity.class));
                 activity.finish();
                 //Sign Out
                 break;
-            case 4:
+            case 6:
                signOutUser();
-               Toast.makeText(activity, "Logout menu selected", Toast.LENGTH_LONG).show();
                 break;
 
             // AdminOrders
-            case 5:
-                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).commit();
+            case 7:
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).commit();
                 break;
 
             //DoctorOrder
-            case 6:
+            case 8:
                 Toast.makeText(activity, "Settings menu selected", Toast.LENGTH_LONG).show();
                 break;
 
                 // about
-            case 7:
+            case 9:
               //  activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
                 Toast.makeText(activity, "about menu selected", Toast.LENGTH_LONG).show();
             break;

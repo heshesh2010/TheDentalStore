@@ -1,7 +1,6 @@
-package com.heshamapps.heshe.thedentalstore;
+package com.heshamapps.heshe.thedentalstore.view;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
+import com.heshamapps.heshe.thedentalstore.R;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;

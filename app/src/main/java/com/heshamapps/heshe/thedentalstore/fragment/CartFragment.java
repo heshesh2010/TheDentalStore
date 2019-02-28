@@ -1,15 +1,12 @@
-package com.heshamapps.heshe.thedentalstore;
+package com.heshamapps.heshe.thedentalstore.fragment;
 
-import androidx.appcompat.widget.Toolbar;
+import android.content.Context;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import es.dmoral.toasty.Toasty;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,29 +18,35 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
+import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
-import com.heshamapps.heshe.thedentalstore.util.DrawerUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Cart extends Activity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
+public class CartFragment extends Fragment {
+
 
     //to get user session data
     private UserSession session;
     private HashMap<String,String> user;
-    private String name,email,photo,mobile;
-    private RecyclerView mRecyclerView;
+
+    private String email;
+    private String photo;
+    private String mobile;
+
     private StaggeredGridLayoutManager mLayoutManager;
     FirestoreRecyclerAdapter adapter;
 
@@ -51,27 +54,42 @@ public class Cart extends Activity {
     Query query;
     FirestoreRecyclerOptions<ProductModel> options;
 
-    private LottieAnimationView tv_no_item;
-    private LottieAnimationView emptyCart;
+    @BindView(R.id.tv_no_cards)
+     LottieAnimationView tv_no_item;
 
-    private ArrayList<ProductModel> cartCollect;
+    @BindView(R.id.empty_cart)
+    LottieAnimationView emptyCart;
+
+
+    private ArrayList<ProductModel> cartCollect = new ArrayList<>();
     private float totalcost=0;
     private int totalproducts=0;
 
+    @BindView(R.id.mRecycler)
+    RecyclerView mRecyclerView;
+
+
+    public CartFragment() {
+        // Required empty public constructor
+    }
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
-        ButterKnife.bind(this);
-        new DrawerUtil(this,mToolbar,  FirebaseAuth.getInstance());
+        db = FirebaseFirestore.getInstance();
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+            View view=   inflater.inflate(R.layout.fragment_cart, container, false);
+        ButterKnife.bind(this, view);
 
-        init();
-        //retrieve session values and display on listviews
-        getValues();
+        session = new UserSession(getActivity());
 
-        //SharedPreference for Cart Value
-        session = new UserSession(getApplicationContext());
+        //validating session
+        session.isLoggedIn();
 
         if (mRecyclerView != null) {
             //to enable optimization of recyclerview
@@ -97,38 +115,45 @@ public class Cart extends Activity {
 
 
 
+        return  view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(session.getCartValue()>0) {
+            adapter.startListening();
+        }else if(session.getCartValue() == 0)  {
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
     }
 
-   void init(){
-       mRecyclerView = findViewById(R.id.recyclerview);
-       tv_no_item = findViewById(R.id.tv_no_cards);
-       emptyCart = findViewById(R.id.empty_cart);
-       cartCollect = new ArrayList<>();
-       db = FirebaseFirestore.getInstance();
+    @Override
+    public void onDetach() {
+        super.onDetach();
 
-
-   }
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     private void populateRecyclerView() {
 
-         adapter = new FirestoreRecyclerAdapter<ProductModel, ProductViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<ProductModel, CartFragment.ProductViewHolder>(options) {
 
             @Override
-            public void onBindViewHolder(ProductViewHolder viewHolder, int position, ProductModel model) {
+            public void onBindViewHolder(CartFragment.ProductViewHolder viewHolder, int position, ProductModel model) {
 
                 if(tv_no_item.getVisibility()== View.VISIBLE){
                     tv_no_item.setVisibility(View.GONE);
@@ -136,7 +161,7 @@ public class Cart extends Activity {
                 viewHolder.cardName.setText(model.getTitle());
                 viewHolder.cardPrice.setText("₹ "+ model.getPrice());
                 viewHolder.cardCount.setText("Quantity : "+ model.getNo_of_items());
-                Picasso.with(Cart.this).load(model.getImage()).into(viewHolder.cardImage);
+                Picasso.with(getActivity()).load(model.getImage()).into(viewHolder.cardImage);
 
                 totalcost += model.getNo_of_items()*model.getPrice();
                 totalproducts += model.getNo_of_items();
@@ -145,22 +170,22 @@ public class Cart extends Activity {
                 viewHolder.cardDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(Cart.this,getItem(position).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getItem(position).getTitle(),Toast.LENGTH_SHORT).show();
                         DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
                         snapshot.getReference().delete();
                         session.decreaseCartValue();
-                        startActivity(new Intent(Cart.this, Cart.class));
-                        finish();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+
                     }
                 });
 
 
             }
             @Override
-            public ProductViewHolder onCreateViewHolder(ViewGroup group, int i) {
+            public CartFragment.ProductViewHolder onCreateViewHolder(ViewGroup group, int i) {
                 View view = LayoutInflater.from(group.getContext())
                         .inflate(R.layout.cart_item_layout, group, false);
-                return new ProductViewHolder(view);
+                return new CartFragment.ProductViewHolder(view);
             }
             @Override
             public void onError(FirebaseFirestoreException e) {
@@ -172,67 +197,54 @@ public class Cart extends Activity {
 
     }
 
+    @OnClick(R.id.checkout)
     public void checkout(View view) {
         if(session.getCartValue()>0) {
-            Intent intent = new Intent(Cart.this,Checkout.class);
-            intent.putExtra("totalprice",Float.toString(totalcost));
-            intent.putExtra("totalproducts",Integer.toString(totalproducts));
-            intent.putExtra("cartproducts",cartCollect);
-            startActivity(intent);
-            finish();        }
-            else if(session.getCartValue() == 0)  {
-            Toasty.error(getApplicationContext(),"You must add product to Cart first ").show();
+
+
+            Bundle bundle = new Bundle();
+            bundle.putString("totalprice",  Float.toString(totalcost));
+            bundle.putString("totalproducts",  Integer.toString(totalproducts));
+
+            bundle.putParcelableArrayList("cartproducts", cartCollect);
+
+            CheckoutFragment m_CheckoutFragment = new CheckoutFragment();
+            m_CheckoutFragment.setArguments(bundle);
+
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_CheckoutFragment).commit();
+
+
+        }
+            //  finish();
+        else {
+                Toasty.error(getActivity(), "You must add product to Cart first ").show();
+            }
+
         }
 
-
-    }
 
     //viewHolder for our Firebase UI
     public static class ProductViewHolder extends RecyclerView.ViewHolder{
 
+        @BindView(R.id.cart_prtitle)
         TextView cardName;
+        @BindView(R.id.image_cartlist)
         ImageView cardImage;
-        TextView cardPrice;
+        @BindView(R.id.cart_prcount)
         TextView cardCount;
+        @BindView(R.id.deletecard)
         ImageView cardDelete;
+        @BindView(R.id.cart_prprice)
+        TextView cardPrice;
+
 
         View mView;
-        public ProductViewHolder(View v) {
-            super(v);
-            mView = v;
-            cardName = v.findViewById(R.id.cart_prtitle);
-            cardImage = v.findViewById(R.id.image_cartlist);
-            cardPrice = v.findViewById(R.id.cart_prprice);
-            cardCount = v.findViewById(R.id.cart_prcount);
-            cardDelete = v.findViewById(R.id.deletecard);
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            mView = itemView;
         }
     }
 
-
-    private void getValues() {
-
-        //create new session object by passing application context
-        session = new UserSession(getApplicationContext());
-
-        //validating session
-        session.isLoggedIn();
-
-        //get User details if logged in
-        user = session.getUserDetails();
-
-        name = user.get(UserSession.KEY_NAME);
-        email = user.get(UserSession.KEY_EMAIL);
-        mobile = user.get(UserSession.KEY_MOBiLE);
-        photo = user.get(UserSession.KEY_PHOTO);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(session.getCartValue()>0) {
-            adapter.startListening();
-        }else if(session.getCartValue() == 0)  {
-        }
-    }
 
 }

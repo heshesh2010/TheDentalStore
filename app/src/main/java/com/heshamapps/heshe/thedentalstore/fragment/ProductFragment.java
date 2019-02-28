@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +17,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +32,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.heshamapps.heshe.thedentalstore.Cart;
 import com.heshamapps.heshe.thedentalstore.Login.LoginActivity;
 import com.heshamapps.heshe.thedentalstore.Model.CommentModel;
 import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
@@ -50,6 +47,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 
 
@@ -66,9 +64,6 @@ public class ProductFragment extends Fragment {
     Query query;
     private FirestoreRecyclerAdapter adapter;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
     @BindView(R.id.mRecycler)
     RecyclerView rv;
 
@@ -78,15 +73,6 @@ public class ProductFragment extends Fragment {
     @BindView(R.id.like_btn)
     TextView like_btn;
 
-    @BindView(R.id.comment_btn)
-    TextView comment_btn;
-
-    @BindView(R.id.share_btn)
-    TextView share_btn;
-
-    @BindView(R.id.addToCart_btn)
-    TextView addToCart_btn;
-
     @BindView(R.id.productTitle)
     TextView productTitle;
 
@@ -95,13 +81,6 @@ public class ProductFragment extends Fragment {
 
     @BindView(R.id.productDesc)
     TextView productDesc;
-
-    @BindView(R.id.decrementQuantity_btn)
-    Button decrementQuantity_btn;
-
-    @BindView(R.id.incrementQuantity_btn)
-    Button incrementQuantity_btn;
-
 
     @BindView(R.id.quantityProductPage)
     EditText quantityProductPage;
@@ -165,9 +144,9 @@ public class ProductFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
         checkLikedStatus();
         getCommentObject();
+        adapter.startListening();
     }
 
     @Override
@@ -211,8 +190,9 @@ public class ProductFragment extends Fragment {
         return return_result;
     }
 
-    public void likeProduct(View view) {
 
+    @OnClick(R.id.like_btn)
+    public void likeProduct(View view) {
         Map<String, Object> data = new HashMap<>();
         data.put("productId", docID);
         data.put("userId", "hesham0");
@@ -247,6 +227,7 @@ public class ProductFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.addToCart_btn)
     public void addToCart(View view) {
         session.checkLogin();
         if(session.isLoggedIn()){
@@ -280,13 +261,16 @@ public class ProductFragment extends Fragment {
 
     }
 
+
+    @OnClick(R.id.fab)
     public void goToCart(View view) {
 
-        startActivity(new Intent(getActivity(), Cart.class));
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
         //finish();
 
     }
 
+    @OnClick(R.id.share_btn)
     public void shareProduct(View view) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
@@ -296,7 +280,8 @@ public class ProductFragment extends Fragment {
     }
 
 
-    public void addCommentPopup(View view){
+@OnClick(R.id.comment_btn)
+public void addCommentPopup(View view){
 
         Map<String, Object> map = new HashMap<>();
 
@@ -419,6 +404,7 @@ public class ProductFragment extends Fragment {
 
     };
 
+    @OnClick(R.id.decrementQuantity_btn)
     public void decrement(View view) {
         if (quantity > 1) {
             quantity--;
@@ -426,6 +412,7 @@ public class ProductFragment extends Fragment {
         }
     }
 
+    @OnClick(R.id.incrementQuantity_btn)
     public void increment(View view) {
         if (quantity < 500) {
             quantity++;

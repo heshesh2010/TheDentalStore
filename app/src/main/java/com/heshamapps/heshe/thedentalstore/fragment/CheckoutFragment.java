@@ -1,35 +1,28 @@
-package com.heshamapps.heshe.thedentalstore;
+package com.heshamapps.heshe.thedentalstore.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
-import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
-import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
-import com.heshamapps.heshe.thedentalstore.util.CheckInternetConnection;
-import com.heshamapps.heshe.thedentalstore.util.DrawerUtil;
-import com.rengwuxian.materialedittext.MaterialEditText;
-import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import es.dmoral.toasty.Toasty;
+import androidx.fragment.app.Fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
+import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
+import com.heshamapps.heshe.thedentalstore.R;
+import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,8 +30,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Checkout extends Activity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
+
+public class CheckoutFragment extends Fragment {
     @BindView(R.id.delivery_date)
     TextView deliveryDate;
     @BindView(R.id.no_of_items)
@@ -58,10 +56,8 @@ public class Checkout extends Activity {
     @BindView(R.id.orderpincode)
     MaterialEditText orderpincode;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
 
-    private ArrayList<ProductModel> cartcollect;
+    private ArrayList<ProductModel> cartcollect= new ArrayList<>();
     private String payment_mode="COD",order_reference_id;
     private String placed_user_name,getPlaced_user_email,getPlaced_user_mobile_no,getPlaced_user_id;
     private UserSession session;
@@ -70,43 +66,59 @@ public class Checkout extends Activity {
     private String currdatetime;
 
 
+    public CheckoutFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout);
-        ButterKnife.bind(this);
-        new DrawerUtil(this,mToolbar,  FirebaseAuth.getInstance());
-
-     //   setSupportActionBar(toolbar);
-        ButterKnife.bind(this);
-        //check Internet Connection
-        new CheckInternetConnection(this).checkConnection();
-
-     //   setSupportActionBar(toolbar);
-     //   getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-     //   getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //SharedPreference for Cart Value
-        session = new UserSession(getApplicationContext());
-
-        //validating session
+        session = new UserSession(getActivity());
         session.isLoggedIn();
-
         mDatabaseReference = FirebaseFirestore.getInstance();
 
-        productdetails();
     }
-    private void productdetails() {
 
-        Bundle bundle = getIntent().getExtras();
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view   = inflater.inflate(R.layout.fragment_checkout, container, false);
+        ButterKnife.bind(this, view);
 
         //setting total price
-        totalAmount.setText(bundle.get("totalprice").toString());
+        totalAmount.setText(getArguments().getString("totalprice").toString());
 
         //setting number of products
-        noOfItems.setText(bundle.get("totalproducts").toString());
+        noOfItems.setText(getArguments().getString("totalproducts").toString());
 
-        cartcollect = (ArrayList<ProductModel>) bundle.get("cartproducts");
+        cartcollect = getArguments().getParcelableArrayList("cartproducts");
+
+        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        productdetails();
+    }
+
+
+    private void productdetails() {
+
 
         //delivery date
         SimpleDateFormat formattedDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -132,8 +144,7 @@ public class Checkout extends Activity {
         currdatetime = sdf.format(new Date());
     }
 
-
-
+    @OnClick(R.id.place_order)
     public void PlaceOrder(View view) {
 
         if (validateFields(view)) {
@@ -145,13 +156,13 @@ public class Checkout extends Activity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toasty.success(Checkout.this, "added to Orders", Toast.LENGTH_SHORT).show();
+                            Toasty.success(getActivity(), "added to Orders", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toasty.error(Checkout.this, "Not added to Orders" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Toasty.error(getActivity(), "Not added to Orders" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -176,6 +187,13 @@ public class Checkout extends Activity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("orderid",  order_reference_id);
+
+                            OrderPlacedFragment m_OrderPlacedFragment = new OrderPlacedFragment();
+                            m_OrderPlacedFragment.setArguments(bundle);
+
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_OrderPlacedFragment).commit();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -186,10 +204,8 @@ public class Checkout extends Activity {
 
             session.setCartValue(0);
 
-            Intent intent = new Intent(Checkout.this, OrderPlaced.class);
-            intent.putExtra("orderid",order_reference_id);
-            startActivity(intent);
-            finish();
+
+
         }
     }
 

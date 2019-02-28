@@ -7,8 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SingleProduct"
-    tools:showIn="@layout/activity_single_product">
+    tools:showIn="@layout/fragment_product">
 
 
     <ImageView
@@ -41,9 +40,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/gen_black"
                 android:gravity="center_vertical|center_horizontal"
-
                 android:layout_weight="1"
-                android:onClick="likeProduct"
                 android:drawableStart="@drawable/ic_thumb_up_grey_700_24dp"/>
 
         <View android:layout_width="@dimen/view_width_small"
@@ -61,7 +58,6 @@
                 android:textColor="@color/gen_black"
                 android:gravity="center_vertical|center_horizontal"
                 android:layout_weight="1"
-                android:onClick="addCommentPopup"
                 android:drawableStart="@drawable/ic_mode_comment_blue_700_24dp"/>
 
         <View android:layout_width="@dimen/view_width_small"
@@ -79,7 +75,6 @@
                 android:textSize="12sp"
                 android:textColor="@color/gen_black"
                 android:gravity="center_vertical|center_horizontal"
-                android:onClick="shareProduct"
                 android:drawableStart="@drawable/ic_share_blue_a700_24dp"/>
 
 
@@ -98,7 +93,6 @@
                 android:textSize="12sp"
                 android:textColor="@color/gen_black"
                 android:gravity="center_vertical|center_horizontal"
-                android:onClick="addToCart"
                 android:drawableStart="@drawable/ic_add_shopping_cart_blue_700_24dp"/>
 
 
@@ -157,7 +151,7 @@
             android:textColor="@android:color/black"
             android:backgroundTint="#eeeeee"
             android:text="@string/minus"
-            android:onClick="decrement"/>
+            />
 
         <EditText
             android:id="@+id/quantityProductPage"
@@ -170,7 +164,8 @@
             android:textSize="16sp"
             android:inputType="number"
             android:hint="@string/_1"
-            android:focusableInTouchMode="true"             android:autofillHints="1"
+            android:focusableInTouchMode="true"
+            android:autofillHints="1"
             tools:text="1"/>
 
         <Button
@@ -179,8 +174,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:backgroundTint="#eeeeee"
-            android:text="@string/plus"
-            android:onClick="increment"/>
+            android:text="@string/plus" />
     </LinearLayout>
 
     </LinearLayout>

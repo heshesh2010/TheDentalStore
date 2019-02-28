@@ -23,7 +23,6 @@
         <activity android:name=".Login.SignupActivity" />
         <activity android:name=".Login.ResetPasswordActivity" />
         <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".OrderPlaced" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Cart" />
-        <activity
-            android:name=".Checkout"
-            android:label="@string/title_activity_checkout"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

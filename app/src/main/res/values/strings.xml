@@ -59,4 +59,6 @@
     <string name="verified_profile">verified profile</string>
     <string name="adminOrderSetting">manage orders</string>
     <string name="about">about</string>
+    <string name="store">store</string>
+    <string name="cart">cart</string>
 </resources>

@@ -3,7 +3,7 @@ package com.heshamapps.heshe.thedentalstore.Doctor;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
-import com.heshamapps.heshe.thedentalstore.OrdersRecyclerViewAdapter;
+import com.heshamapps.heshe.thedentalstore.view.OrdersRecyclerViewAdapter;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 
@@ -132,61 +132,9 @@ public class ViewOrdersFragment extends Fragment {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
@@ -195,8 +143,4 @@ public class ViewOrdersFragment extends Fragment {
     }
 
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
