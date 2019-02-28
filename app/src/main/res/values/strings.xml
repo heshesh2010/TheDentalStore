@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">The Dental Store</string>
+
+    <string name="loginActivity_name">Login</string>
+    <string name="loginActivity_usernameTV">User ID :</string>
+    <string name="loginActivity_usernameET">Type your Id here</string>
+    <string name="loginActivity_passwordTV">Pass :</string>
+    <string name="loginActivity_forgetTV">Forget password?</string>
+    <string name="loginActivity_loginBTN">Login</string>
+    <string name="loginActivity_signUpBTN">SignUp</string>
+
+    <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
+
+    <string name="btn_forgot_password">Forgot your password?</string>
+    <string name="btn_link_to_login">Already registered. Login Me!</string>
+    <string name="action_sign_in_short">Register</string>
+
+    <string name="hint_password">Password</string>
+    <string name="signUpActivity_userTypeAdmin">Admin</string>
+    <string name="signUpActivity_userTypeStudent">Student</string>
+
+    <string name="email">Email</string>
+    <string name="hint_email">Email</string>
+
+    <string name="btn_reset_password">Reset Password</string>
+
+    <string name="btn_sign_out">Sign Out</string>
+    <string name="lbl_forgot_password">Forgot password?</string>
+    <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    <string name="unverified_profile">My Profile (Unverified)</string>
+
+    <string name="login_menu_item">Log in</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="logout_menu_item">Sign out</string>
+    <string name="welcome_on_signin">Congratulations! you have successfully signed in.</string>
+    <string name="default_nouser_signin">No user signed in currently.</string>
+    <string name="login_failed">Log in cancelled!</string>
+    <string name="login_success">Log in successful.</string>
+    <string name="logout_success">Successfully logged out</string>
+    <string name="logout_failed">Failed to log out</string>
+    <string name="login_unknown_Error">Unknown error while logging in. Please Try again</string>
+    <string name="no_connectivity">There is no internet connection. Please try again</string>
+    <string name="title_activity_single_product">SingleProduct</string>
+    <string name="like">like</string>
+    <string name="_1">1</string>
+    <string name="details">Details</string>
+    <string name="add_to_cart">add to cart</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="free_delivery">FREE Delivery</string>
+    <string name="todo">TODO</string>
+    <string name="comment">comment</string>
+    <string name="price">Rs. 1,979</string>
+    <string name="title_activity_checkout">Checkout</string>
+    <string name="noconnection">Kindly connect to a WIFI network or enable Mobile Data</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="verified_profile">verified profile</string>
+    <string name="adminOrderSetting">manage orders</string>
+    <string name="about">about</string>
+</resources>

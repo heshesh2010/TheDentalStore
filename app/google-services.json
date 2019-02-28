@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "514188661905",
+    "firebase_url": "https://online-dental-store.firebaseio.com",
+    "project_id": "online-dental-store",
+    "storage_bucket": "online-dental-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514188661905:android:bc026fb7802753a1",
+        "android_client_info": {
+          "package_name": "com.heshamapps.heshe.thedentalstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514188661905-u75r496t9t493l9605q2q70ugngmi4v6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPg3vt5-MhgEtOUWAOdU3oepifI3-cKZQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
