@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/orderId_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order ID:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/orderId_ed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/orderId_tv"
+        android:text="1234567892"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/payment_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="payment method:"
+        android:layout_below="@+id/orderId_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/payment_ed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_toEndOf="@+id/payment_tv"
+        android:layout_alignBaseline="@+id/payment_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+    <TextView
+        android:id="@+id/numberOfItems_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of Itmes:"
+        android:layout_below="@+id/payment_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/numberOfItems_ed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_toEndOf="@+id/numberOfItems_tv"
+        android:layout_alignBaseline="@+id/numberOfItems_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/total_amount_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="total:"
+        android:layout_below="@+id/numberOfItems_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/total_amount_ed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_toEndOf="@+id/total_amount_tv"
+        android:layout_alignBaseline="@+id/total_amount_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/delivery_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="delivery date:"
+        android:layout_below="@+id/total_amount_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/delivery_date_ed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_toEndOf="@+id/delivery_date_tv"
+        android:layout_alignBaseline="@+id/delivery_date_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="order status:"
+        android:layout_below="@+id/delivery_date_tv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+
+    <Spinner
+        android:id="@+id/status_ed"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/status_tv"
+        android:entries="@array/status"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_toEndOf="@+id/status_tv" />
+
+
+
+    <Button
+        android:id="@+id/save_order_b"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_below="@+id/status_tv"/>
+
+    <Button
+        android:id="@+id/delete_order_b"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/save_order_b"
+        android:layout_alignBaseline="@+id/save_order_b"
+        android:text="Delete" />
+
+</RelativeLayout>

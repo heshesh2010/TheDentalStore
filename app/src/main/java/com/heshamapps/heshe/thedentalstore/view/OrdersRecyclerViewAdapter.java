@@ -44,7 +44,7 @@ public class OrdersRecyclerViewAdapter extends
     onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_event_item, parent, false);
+                .inflate(R.layout.view_order_item, parent, false);
 
         OrdersRecyclerViewAdapter.ViewHolder viewHolder =
                 new OrdersRecyclerViewAdapter.ViewHolder(view);
@@ -64,18 +64,10 @@ public class OrdersRecyclerViewAdapter extends
         holder.delivery_date.setText(order.getDelivery_date());
         holder.status.setText(order.getStatus());
 
-        holder.edit_order.setOnClickListener(new View.OnClickListener() {
+        holder.cancel_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //   editOrderFragment(order);
-            }
-        });
-
-        holder.delete_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteOrder(order.getOrderid(), itemPos);
-            }
+                cancelOrder(order.getOrderid(), itemPos);            }
         });
     }
 
@@ -99,11 +91,8 @@ public class OrdersRecyclerViewAdapter extends
         @BindView(R.id.status_ed)
         TextView status;
 
-        @BindView(R.id.edit_order_b)
-        Button edit_order;
-
-        @BindView(R.id.delete_order_b)
-        Button delete_order;
+        @BindView(R.id.cancel_order_b)
+        Button cancel_order;
 
 
         public ViewHolder(View view) {
@@ -113,20 +102,8 @@ public class OrdersRecyclerViewAdapter extends
         }
     }
 
-  /*  private void editOrderFragment(PlacedOrderModel order) {
-        FragmentManager fm = ((OrderActivity) context).getSupportFragmentManager();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("order", order);
-
-        AddOrderFragment addFragment = new AddEventFragment();
-        addFragment.setArguments(bundle);
-
-        fm.beginTransaction().replace(R.id.events_content, addFragment).commit();
-    }*/
-
-    private void deleteOrder(String docId, final int position) {
-        firestoreDB.collection("orders").document(docId).delete()
+    private void cancelOrder(String docId, final int position) {
+        firestoreDB.collection("orders").document(docId).update("status", "Cancelled")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

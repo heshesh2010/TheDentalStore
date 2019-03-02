@@ -38,7 +38,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/like"
                 android:textSize="12sp"
-                android:textColor="@color/gen_black"
+                android:textColor="@color/colorBlack"
                 android:gravity="center_vertical|center_horizontal"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/ic_thumb_up_grey_700_24dp"/>
@@ -55,7 +55,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/comment"
                 android:textSize="12sp"
-                android:textColor="@color/gen_black"
+                android:textColor="@color/colorBlack"
                 android:gravity="center_vertical|center_horizontal"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/ic_mode_comment_blue_700_24dp"/>
@@ -73,7 +73,7 @@
                 android:layout_marginStart="8dp"
                 android:text="share"
                 android:textSize="12sp"
-                android:textColor="@color/gen_black"
+                android:textColor="@color/colorBlack"
                 android:gravity="center_vertical|center_horizontal"
                 android:drawableStart="@drawable/ic_share_blue_a700_24dp"/>
 
@@ -91,7 +91,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/add_to_cart"
                 android:textSize="12sp"
-                android:textColor="@color/gen_black"
+                android:textColor="@color/colorBlack"
                 android:gravity="center_vertical|center_horizontal"
                 android:drawableStart="@drawable/ic_add_shopping_cart_blue_700_24dp"/>
 
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:text="Denim Shirt"
                 android:textSize="16sp"
-                android:textColor="@color/gen_black"/>
+                android:textColor="@color/colorBlack"/>
             <TextView
                 android:id="@+id/productPrice"
                 android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/price"
                 android:textSize="20sp"
-                android:textColor="@color/gen_black"
+                android:textColor="@color/colorBlack"
                 />
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:text="@string/details"
             android:textSize="16sp"
-            android:textColor="@color/gen_black"/>
+            android:textColor="@color/colorBlack"/>
         <TextView
             android:id="@+id/productDesc"
             android:layout_width="wrap_content"
@@ -209,7 +209,7 @@
             android:layout_marginTop="8dp"
             android:text="\u2022 Regular fit, full sleeve"
             android:textSize="12sp"
-            android:textColor="@color/gen_black"/>
+            android:textColor="@color/colorBlack"/>
 
     </LinearLayout>
 

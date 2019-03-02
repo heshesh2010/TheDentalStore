@@ -146,7 +146,7 @@ public class UserSession {
     /**
      * Clear session details
      * */
-   /* public void logoutUser(){
+    public void logoutUser(){
         // Clearing all data from Shared Preferences
         editor.putBoolean(IS_LOGIN,false);
         editor.commit();
@@ -161,7 +161,7 @@ public class UserSession {
 
         // Staring Login Activity
         context.startActivity(i);
-    }*/
+    }
 
     /**
      * Quick check for login

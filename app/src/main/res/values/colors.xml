@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#e67e22</color>
-    <color name="colorPrimaryDark">#d35400</color>
+    <color name="colorPrimary">#63065f</color>
+    <color name="colorPrimaryLight">#933d8d</color>
+    <color name="colorPrimaryDark">#360035</color>
     <color name="colorAccent">#fff</color>
+    <color name="colorBlack">#000000</color>
+
+
     <color name="darkWhite">#cfd8dc</color>
     <color name="black_overlay">#66000000</color>
     <color name="light_grey">#cccccc</color>
 
 
-    <color name="gen_black">#000000</color>
     <color name="gen_white">#FFFFFF</color>
 
     <color name="fui_bgFacebook">#FFFFFF</color>

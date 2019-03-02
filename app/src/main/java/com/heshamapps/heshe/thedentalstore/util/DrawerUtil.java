@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.heshamapps.heshe.thedentalstore.Admin.ManageOrdersFragment;
 import com.heshamapps.heshe.thedentalstore.Doctor.ViewOrdersFragment;
 import com.heshamapps.heshe.thedentalstore.Login.LoginActivity;
 import com.heshamapps.heshe.thedentalstore.R;
@@ -146,8 +147,8 @@ public class DrawerUtil {
 
         mItemLogin = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.login_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
         mItemLogout = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.logout_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_logout_black_48dp));
-        mItemAdminOrderSetting = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.adminOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
-        mItemDoctorOrderSetting = new PrimaryDrawerItem().withIdentifier(8).withName(R.string.settings).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+        mItemAdminOrderSetting = new PrimaryDrawerItem().withIdentifier(8).withName(R.string.adminOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+        mItemDoctorOrderSetting = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.doctorOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
         mItemAbout = new PrimaryDrawerItem().withIdentifier(9).withName(R.string.about).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
 
 
@@ -219,28 +220,33 @@ public class DrawerUtil {
 
             //Sign In
             case 5:
-                activity.startActivity(new Intent(activity.getApplicationContext(), LoginActivity.class));
-                activity.finish();
-                //Sign Out
+                signInUser();
+                Toast.makeText(activity, "Sign in menu selected", Toast.LENGTH_LONG).show();
                 break;
+
+            //Sign Out
             case 6:
                signOutUser();
+                Toast.makeText(activity, "Sign out menu selected", Toast.LENGTH_LONG).show();
                 break;
 
-            // AdminOrders
+            // Doctor Orders
             case 7:
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).commit();
+                Toast.makeText(activity, "Doctor Orders menu selected", Toast.LENGTH_LONG).show();
+
                 break;
 
-            //DoctorOrder
+            //Admin Order
             case 8:
-                Toast.makeText(activity, "Settings menu selected", Toast.LENGTH_LONG).show();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ManageOrdersFragment()).commit();
+                Toast.makeText(activity, "Admin Manage Orders menu selected", Toast.LENGTH_LONG).show();
                 break;
 
                 // about
             case 9:
               //  activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
-                Toast.makeText(activity, "about menu selected", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "About menu selected", Toast.LENGTH_LONG).show();
             break;
         }
         mDrawerResult.closeDrawer();
@@ -264,20 +270,35 @@ public class DrawerUtil {
     }
 
 
+    private static void intstantiateUser(){
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+    }
+
+    private static void signInUser(){
+        intstantiateUser();
+        mDrawerResult.closeDrawer();
+        activity.startActivity(new Intent(activity.getApplicationContext(), LoginActivity.class));
+        activity.finish();
+
+     //   ((TextView)findViewById(R.id.idContent)).setText(R.string.welcome_on_signin);
+    }
+
+
     private static void signOutUser() {
         //Sign out
         mFirebaseAuth.signOut();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (isUserSignedIn()) {
+       // mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        session.logoutUser();
+
+        if (!isUserSignedIn()) {
 
             mDrawerResult.updateItemAtPosition(mItemLogin, 1);
-            mDrawerResult.removeItemByPosition(2);
+            mDrawerResult.removeItemByPosition(5);
 
             mDrawerResult.deselect(mItemLogin.getIdentifier());
             refreshMenuHeader();
-            Intent intent = new Intent(activity, LoginActivity.class);
-            activity.startActivity(intent);
-            activity.finish();
         } else {
             //check if internet connectivity is there
         }

@@ -113,21 +113,12 @@
 
 
     <Button
-        android:id="@+id/edit_order_b"
+        android:id="@+id/cancel_order_b"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:text="Cancel my order"
         android:layout_below="@+id/status_tv"/>
 
-    <Button
-        android:id="@+id/delete_order_b"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/edit_order_b"
-        android:layout_alignBaseline="@+id/edit_order_b"
-
-        android:text="Delete" />
 
 </RelativeLayout>

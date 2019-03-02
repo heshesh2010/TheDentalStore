@@ -43,8 +43,6 @@ import com.heshamapps.heshe.thedentalstore.view.GridSpacingItemDecoration;
 
 public class MainFragment extends Fragment {
 
-    androidx.appcompat.widget.Toolbar mToolbar;
-
 
     private FirestoreRecyclerAdapter adapter;
 
@@ -194,9 +192,9 @@ public class MainFragment extends Fragment {
 
 
     class ProductHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.Price)
+        @BindView(R.id.price)
         TextView textPrice;
-        @BindView(R.id.productImage)
+        @BindView(R.id.thumbnail)
         ImageView imageView;
         @BindView(R.id.title)
         TextView textTitle;

@@ -26,6 +26,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mToolbar.setTitle("The Dental Store ");
         new DrawerUtil(this,mToolbar,  FirebaseAuth.getInstance());
 
        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();

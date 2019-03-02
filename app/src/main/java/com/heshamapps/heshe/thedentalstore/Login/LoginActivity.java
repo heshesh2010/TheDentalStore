@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.heshamapps.heshe.thedentalstore.MainActivity;
 import com.heshamapps.heshe.thedentalstore.Model.Users;
 import com.heshamapps.heshe.thedentalstore.R;
+import com.heshamapps.heshe.thedentalstore.fragment.MainFragment;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 import com.heshamapps.heshe.thedentalstore.util.CONFIG;
 
@@ -154,5 +155,11 @@ public class LoginActivity extends Activity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
+    }
 
 }
