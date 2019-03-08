@@ -62,6 +62,8 @@
     <string name="store">store</string>
     <string name="cart">cart</string>
     <string name="doctorOrderSetting">view Orders</string>
+    <string name="expire_date">Expire date</string>
+    <string name="MyDentalStore">My Dental Store</string>
 
 
     <string-array name="status">

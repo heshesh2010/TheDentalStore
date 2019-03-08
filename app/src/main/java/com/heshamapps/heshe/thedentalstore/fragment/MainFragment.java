@@ -94,6 +94,7 @@ public class MainFragment extends Fragment {
                     updaterecycleview(buttonView.getText());
                 }
 
+                // should return to All tab
                 else{}
 
             }

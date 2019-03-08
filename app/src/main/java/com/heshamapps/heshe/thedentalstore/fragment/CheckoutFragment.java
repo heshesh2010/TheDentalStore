@@ -168,20 +168,20 @@ public class CheckoutFragment extends Fragment {
 
 
             //adding products to the order
-         /*   for(ProductModel model:cartcollect){
-                mDatabaseReference.collection("orders").document(getPlaced_user_id).collection(currdatetime).document("items").set(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+            for(ProductModel model:cartcollect){
+                mDatabaseReference.collection("orders").document(order_reference_id).collection("items").document().set(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toasty.success(Checkout.this, "added to orders", Toast.LENGTH_SHORT).show();
+                        Toasty.success(getActivity(), "items added to orders", Toast.LENGTH_SHORT).show();
                     }
                 })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toasty.error(Checkout.this, "Not added to orders" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                Toasty.error(getActivity(), "items Not added to orders" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
-            }*/
+            }
 
             mDatabaseReference.collection("Cart").document(getPlaced_user_id).delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

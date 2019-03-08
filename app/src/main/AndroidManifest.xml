@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.heshamapps.heshe.thedentalstore">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <application
         android:name=".util.CustomApplication"
         android:allowBackup="true"
@@ -12,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:appComponentFactory">
+        tools:replace="android:appComponentFactory"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".SplashActivity">
             <intent-filter>
@@ -30,6 +33,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".util.AlarmService"
+            android:enabled="true" />
+        <receiver android:process=":remote" android:name=".util.Receiver" />
     </application>
+
 
 </manifest>

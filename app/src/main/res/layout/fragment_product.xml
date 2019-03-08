@@ -21,7 +21,6 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        app:rippleColor="@color/colorAccent"
         app:backgroundTint="@color/colorPrimaryLight"
         android:src="@drawable/ic_shopping_cart_white_24dp"/>
 

@@ -9,7 +9,7 @@ public class PlacedOrderModel {
     }
 
     private String orderid,no_of_items,total_amount,delivery_date,payment_mode,deleiveryname,deliveryemail,deliverymobile_no,deliveryaddress,deliverypincode,status;
-    private String placed_user_name,Placed_user_email,Placed_user_mobile_no,getPlaced_user_id;
+    private String placed_user_name,Placed_user_email,Placed_user_mobile_no,getPlaced_user_id,expired_date;
 
     public PlacedOrderModel(String orderid, String no_of_items, String total_amount, String delivery_date, String payment_mode, String deleiveryname, String deliveryemail, String deliverymobile_no, String deliveryaddress, String deliverypincode, String placed_user_name, String getPlaced_user_email, String getPlaced_user_mobile_no, String getPlaced_user_id , String status) {
 
@@ -29,7 +29,6 @@ public class PlacedOrderModel {
         this.getPlaced_user_id=getPlaced_user_id;
         this.status=status;
     }
-
 
     public String getStatus() {
         return status;

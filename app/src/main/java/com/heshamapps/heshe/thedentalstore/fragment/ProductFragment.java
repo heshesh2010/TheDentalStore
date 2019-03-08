@@ -82,8 +82,14 @@ public class ProductFragment extends Fragment {
     @BindView(R.id.productDesc)
     TextView productDesc;
 
+    @BindView(R.id.productExpire)
+    TextView productExpire;
+
     @BindView(R.id.quantityProductPage)
     EditText quantityProductPage;
+
+    int price=0 ;
+    int TempPrice =0;
 
     public ProductFragment() {
         // Required empty public constructor
@@ -107,9 +113,13 @@ public class ProductFragment extends Fragment {
         docID=  getArguments().getString("docID");
         Picasso.with(getActivity()).load(m_ProductModel.getImage()).into(productImage);
         session = new UserSession(getActivity());
-        productTitle.setText("Title:" + m_ProductModel.getTitle());
-        productPrice.setText("price: $" + String.valueOf(m_ProductModel.getPrice()));
-        productDesc.setText("Product Description" + m_ProductModel.getDesc());
+        productTitle.setText(m_ProductModel.getTitle());
+        productPrice.setText(String.valueOf(m_ProductModel.getPrice()));
+        productDesc.setText(m_ProductModel.getDesc());
+        productExpire .setText( m_ProductModel.getExpired_date());
+         price = Integer.parseInt(productPrice.getText().toString());
+        TempPrice=price;
+
         quantityProductPage.setText("1");
 
         //setting textwatcher for no of items field
@@ -280,8 +290,8 @@ public class ProductFragment extends Fragment {
     }
 
 
-@OnClick(R.id.comment_btn)
-public void addCommentPopup(View view){
+    @OnClick(R.id.comment_btn)
+    public void addCommentPopup(View view){
 
         Map<String, Object> map = new HashMap<>();
 
@@ -303,6 +313,7 @@ public void addCommentPopup(View view){
                         Date todayDate = Calendar.getInstance().getTime();
                         String todayString = formatter.format(todayDate);
                         map.put("CommentDate",todayString);
+
                         mDatabaseReference.collection("products").document(docID).collection("comments").document()
                                 .set(map)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -328,14 +339,12 @@ public void addCommentPopup(View view){
     }
     private ProductModel getProductObject() {
 
-        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),m_ProductModel.getPrice(), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile);
+        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),m_ProductModel.getPrice(), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpired_date());
 
     }
 
 
     private void getCommentObject(){
-
-
 
         query = FirebaseFirestore.getInstance()
                 .collection("products").document(docID).collection("comments");
@@ -409,6 +418,9 @@ public void addCommentPopup(View view){
         if (quantity > 1) {
             quantity--;
             quantityProductPage.setText(String.valueOf(quantity));
+            TempPrice=TempPrice-price;
+
+            productPrice.setText(""+TempPrice);
         }
     }
 
@@ -417,6 +429,9 @@ public void addCommentPopup(View view){
         if (quantity < 500) {
             quantity++;
             quantityProductPage.setText(String.valueOf(quantity));
+            TempPrice=TempPrice+price;
+            productPrice.setText(""+TempPrice);
+
         } else {
             Toasty.error(getActivity(), "Product Count Must be less than 500", Toast.LENGTH_LONG).show();
         }

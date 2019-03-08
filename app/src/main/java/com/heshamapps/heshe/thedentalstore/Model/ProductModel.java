@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 public class ProductModel implements Serializable, Parcelable {
 
-    private String title , image , desc ,userEmail,userMobile;
+    private String title , image , desc ,userEmail,userMobile,expired_date;
     private int id ,price  ,no_of_items;
 
-    public ProductModel(int id ,String title, int price, String desc ,String image,int no_of_items, String userEmail , String userMobile) {
+    public ProductModel(int id , String title, int price, String desc , String image, int no_of_items, String userEmail , String userMobile, String expired_date) {
         this.id=id;
         this.title = title;
         this.price=price;
@@ -22,10 +22,12 @@ public class ProductModel implements Serializable, Parcelable {
         this.no_of_items=no_of_items;
         this.userEmail=userEmail;
         this.userMobile=userMobile;
+        this.expired_date=expired_date;
 
     }
     public ProductModel() {
     }
+
 
     public int getId() {
         return id;
@@ -96,10 +98,22 @@ public class ProductModel implements Serializable, Parcelable {
     }
 
 
+    public String getExpired_date() {
+        return expired_date;
+    }
+
+    public void setExpired_date(String expired_date) {
+        this.expired_date = expired_date;
+    }
+
+
+
     @Override
     public int describeContents() {
         return 0;
     }
+
+
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -110,7 +124,9 @@ public class ProductModel implements Serializable, Parcelable {
         dest.writeString(userMobile);
         dest.writeInt(id);
         dest.writeInt(no_of_items);
-        dest.writeInt(id);
+        dest.writeInt(price);
+        dest.writeString(expired_date);
+
     }
 
 
@@ -134,7 +150,9 @@ public class ProductModel implements Serializable, Parcelable {
         userMobile = in.readString();
         id = in.readInt();
         no_of_items = in.readInt();
-        id = in.readInt();
+        price = in.readInt();
+        expired_date = in.readString();
+
     }
 
 }

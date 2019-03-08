@@ -1,4 +1,4 @@
-package com.heshamapps.heshe.thedentalstore.view;
+package com.heshamapps.heshe.thedentalstore.Admin;
 
 import android.content.Context;
 import android.view.LayoutInflater;

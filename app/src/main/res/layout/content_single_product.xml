@@ -128,13 +128,39 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/price"
                 android:textSize="20sp"
-                android:textColor="@color/colorBlack"
-                />
+                android:textColor="@color/colorBlack" />
+
+
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/free_delivery"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/expireTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expire_date"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/productExpire"
+        android:layout_toEndOf="@+id/expireTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"/>
+
+
+</RelativeLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -197,6 +223,7 @@
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
+
         <TextView android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/details"
@@ -213,11 +240,19 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_width_small"
+        android:layout_below="@+id/descLayout"
+        android:background="@color/grey_light"
+        android:layout_marginTop="8dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/descLayout">
+        android:layout_below="@+id/divider2">
 
     </androidx.recyclerview.widget.RecyclerView>
 

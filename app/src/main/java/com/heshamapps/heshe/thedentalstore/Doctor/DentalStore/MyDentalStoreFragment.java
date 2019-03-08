@@ -1,13 +1,17 @@
-package com.heshamapps.heshe.thedentalstore.Doctor;
+package com.heshamapps.heshe.thedentalstore.Doctor.DentalStore;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,33 +23,28 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
-import com.heshamapps.heshe.thedentalstore.view.OrdersRecyclerViewAdapter;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ViewOrdersFragment extends Fragment {
+public class MyDentalStoreFragment extends Fragment {
 
 
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore db;
     private UserSession session;
-    private static final String TAG = "ViewOrdersFragment";
+    private static final String TAG = "MyDentalStoreFragment";
 
-    @BindView(R.id.ordersRecyclerView)
-     RecyclerView ordersRecyclerView;
+    @BindView(R.id.storeRecyclerView)
+     RecyclerView MyDentalStoreRecyclerView;
 
-    public ViewOrdersFragment() {
+    public MyDentalStoreFragment() {
         // Required empty public constructor
     }
 
@@ -73,18 +72,18 @@ public class ViewOrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_doctor_orders, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_dental_store, container, false);
         ButterKnife.bind(this, view);
 
 
         LinearLayoutManager recyclerLayoutManager =
                 new LinearLayoutManager(getActivity().getApplicationContext());
-        ordersRecyclerView.setLayoutManager(recyclerLayoutManager);
+        MyDentalStoreRecyclerView.setLayoutManager(recyclerLayoutManager);
 
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(ordersRecyclerView.getContext(),
+                new DividerItemDecoration(MyDentalStoreRecyclerView.getContext(),
                         recyclerLayoutManager.getOrientation());
-        ordersRecyclerView.addItemDecoration(dividerItemDecoration);
+        MyDentalStoreRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;
     }
@@ -98,12 +97,11 @@ public class ViewOrdersFragment extends Fragment {
                 if (task.isSuccessful()) {
                     List<PlacedOrderModel> list = new ArrayList<>();
                     for (DocumentSnapshot  document : task.getResult()) {
-                        list.add(  document.toObject(PlacedOrderModel.class));
+                        list.add( document.toObject(PlacedOrderModel.class));
                     }
-                    OrdersRecyclerViewAdapter recyclerViewAdapter = new
-                            OrdersRecyclerViewAdapter(list,
-                            getActivity(), db);
-                    ordersRecyclerView.setAdapter(recyclerViewAdapter);
+                    MyDentalStoreRecyclerViewAdapter recyclerViewAdapter = new
+                            MyDentalStoreRecyclerViewAdapter(list, getActivity(), db);
+                    MyDentalStoreRecyclerView.setAdapter(recyclerViewAdapter);
                     Log.d(TAG, list.toString());
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

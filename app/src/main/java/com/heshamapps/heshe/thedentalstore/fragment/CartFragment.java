@@ -80,6 +80,8 @@ public class CartFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -159,7 +161,7 @@ public class CartFragment extends Fragment {
                     tv_no_item.setVisibility(View.GONE);
                 }
                 viewHolder.cardName.setText(model.getTitle());
-                viewHolder.cardPrice.setText("₹ "+ model.getPrice());
+                viewHolder.cardPrice.setText("$ "+ model.getPrice());
                 viewHolder.cardCount.setText("Quantity : "+ model.getNo_of_items());
                 Picasso.with(getActivity()).load(model.getImage()).into(viewHolder.cardImage);
 
@@ -245,6 +247,8 @@ public class CartFragment extends Fragment {
             mView = itemView;
         }
     }
+
+
 
 
 }

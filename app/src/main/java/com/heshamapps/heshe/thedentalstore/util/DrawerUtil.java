@@ -1,7 +1,6 @@
 package com.heshamapps.heshe.thedentalstore.util;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.heshamapps.heshe.thedentalstore.Admin.ManageOrdersFragment;
+import com.heshamapps.heshe.thedentalstore.Doctor.DentalStore.MyDentalStoreFragment;
 import com.heshamapps.heshe.thedentalstore.Doctor.ViewOrdersFragment;
 import com.heshamapps.heshe.thedentalstore.Login.LoginActivity;
 import com.heshamapps.heshe.thedentalstore.R;
@@ -30,7 +30,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class DrawerUtil {
 
@@ -46,6 +45,7 @@ public class DrawerUtil {
     private static PrimaryDrawerItem mItemLogout;
     private static PrimaryDrawerItem mItemAdminOrderSetting;
     private static PrimaryDrawerItem mItemDoctorOrderSetting;
+    private static PrimaryDrawerItem mItemMyDentalStore;
     private static PrimaryDrawerItem mItemVerifiedProfile;
     private static PrimaryDrawerItem mItemUnverifiedProfile;
     private static PrimaryDrawerItem mItemAbout;
@@ -91,7 +91,7 @@ public class DrawerUtil {
                             .withActivity(activity)
                             .withAccountHeader(setupAccountHeader())
                             .withToolbar(mToolbar)
-                            .addDrawerItems(mItemStore,mItemCart,mItemLogout, new DividerDrawerItem(),mItemDoctorOrderSetting,mItemAbout)
+                            .addDrawerItems(mItemStore,mItemCart,mItemMyDentalStore,mItemLogout, new DividerDrawerItem(),mItemDoctorOrderSetting,mItemAbout)
                             .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                                 onNavDrawerItemSelected((int)drawerItem.getIdentifier());
                                 return true;
@@ -101,7 +101,21 @@ public class DrawerUtil {
                     mCurrentProfile = checkCurrentProfileStatus();
                     break;
                 default:
-                  //  Toasty.error(getApplicationContext(), "Sorry, Unknown user type please contact app developer", Toast.LENGTH_LONG).show();
+                    mDrawerResult = new DrawerBuilder()
+                            .withActivity(activity)
+                            .withAccountHeader(setupAccountHeader())
+                            .withToolbar(mToolbar)
+                            .addDrawerItems( mItemStore,mItemCart,new DividerDrawerItem() ,mItemLogin, mItemAbout)
+                            .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                                @Override
+                                public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                                    onNavDrawerItemSelected((int)drawerItem.getIdentifier());
+                                    return true;
+                                }
+                            })
+                            .build();
+                    mDrawerResult.closeDrawer();
+
                     break;
             }
 
@@ -119,8 +133,9 @@ public class DrawerUtil {
                         }
                     })
                     .build();
+            mDrawerResult.closeDrawer();
         }
-        mDrawerResult.closeDrawer();
+
     }
 
     private static PrimaryDrawerItem checkCurrentProfileStatus(){
@@ -150,6 +165,8 @@ public class DrawerUtil {
         mItemAdminOrderSetting = new PrimaryDrawerItem().withIdentifier(8).withName(R.string.adminOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
         mItemDoctorOrderSetting = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.doctorOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
         mItemAbout = new PrimaryDrawerItem().withIdentifier(9).withName(R.string.about).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+        mItemMyDentalStore = new PrimaryDrawerItem().withIdentifier(10).withName(R.string.MyDentalStore).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+
 
 
     }
@@ -245,9 +262,14 @@ public class DrawerUtil {
 
                 // about
             case 9:
-              //  activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
+              //  activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
                 Toast.makeText(activity, "About menu selected", Toast.LENGTH_LONG).show();
             break;
+            // dental Store
+            case 10:
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MyDentalStoreFragment()).commit();
+                Toast.makeText(activity, "My dental menu selected", Toast.LENGTH_LONG).show();
+                break;
         }
         mDrawerResult.closeDrawer();
     }

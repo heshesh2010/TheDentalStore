@@ -25,7 +25,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
-import com.heshamapps.heshe.thedentalstore.view.ManageOrdersRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="@dimen/card_album_radius">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/album_cover_height"
+                android:background="@color/bg_screen1"
+                android:clickable="true"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thumbnail"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingTop="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:text="@string/title_activity_checkout"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/album_title" />
+
+            <TextView
+                android:id="@+id/productExpireTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/album_title_padding"
+                android:layout_below="@id/title"
+                android:text="Product expire date "
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:textSize="@dimen/songs_count" />
+
+            <TextView
+                android:id="@+id/productExpire"
+                android:paddingTop="@dimen/album_title_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_toEndOf="@+id/productExpireTv"
+                android:text="@string/title_activity_checkout"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:textSize="@dimen/songs_count" />
+
+            <TextView
+                android:id="@+id/choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/album_title_padding"
+                android:layout_below="@id/productExpire"
+                android:text="choose notification expire date"
+                android:textColor="@color/colorBlack"
+                android:gravity="center"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:textSize="@dimen/songs_count" />
+
+
+            <EditText
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/productExpire"
+                android:layout_toEndOf="@+id/choose"
+                android:textColor="@color/colorBlack"
+                android:clickable="true"
+                android:gravity="center"
+                android:hint="@string/expire_date"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:textSize="@dimen/songs_count"
+                android:focusable="true" />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

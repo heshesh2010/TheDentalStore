@@ -1,4 +1,4 @@
-package com.heshamapps.heshe.thedentalstore.view;
+package com.heshamapps.heshe.thedentalstore.Doctor;
 
 import android.content.Context;
 import android.view.LayoutInflater;
