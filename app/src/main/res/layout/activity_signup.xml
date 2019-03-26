@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/odsbackgroundscreen"
     tools:context=".Login.SignupActivity">
 
     <ProgressBar
@@ -23,7 +24,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
 
@@ -59,28 +59,6 @@
                 android:singleLine="true"
                 android:textColor="@android:color/white" />
 
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userTypeRadioGroup"
-            android:orientation="horizontal"
-            android:checkedButton="@+id/adminRB" >
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/adminRB"
-                android:text="@string/signUpActivity_userTypeAdmin" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/studentRB"
-                android:text="@string/signUpActivity_userTypeStudent" />
-
-
-        </RadioGroup>
 
 
         <Button

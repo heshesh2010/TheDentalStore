@@ -66,7 +66,7 @@ public class LoginActivity extends Activity {
     //Login BTN
     public void login(View view){
         mUserName = usernameET.getText().toString();
-        mPassword = String.valueOf(passwordET.getText().toString());
+        mPassword = passwordET.getText().toString();
 
         if (TextUtils.isEmpty(mUserName)) {
             Toasty.warning(LoginActivity.this, "error" + "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -81,6 +81,16 @@ public class LoginActivity extends Activity {
 
         progressBar.setVisibility(View.VISIBLE);
 
+        if(mUserName.equals("admin@gmail.com")&&mPassword.equals("adminadmin")){
+            getSharedPreferences("myPref", MODE_PRIVATE).edit().putInt("userType",1).apply();
+            session.createLoginSession();
+            lunchAdminScreen();
+            progressBar.setVisibility(View.INVISIBLE);
+
+        }
+        else{
+
+
         //authenticate user
         auth.signInWithEmailAndPassword(mUserName, mPassword)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -93,9 +103,11 @@ public class LoginActivity extends Activity {
                             // there was an error
                             if (mPassword.length() < 6) {
                                 passwordET.setError(getString(R.string.minimum_password));
+                                progressBar.setVisibility(View.INVISIBLE);
                             } else {
                               //  Toasty.error(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                 Toasty.error(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.INVISIBLE);
 
                             }
                         } else {
@@ -106,23 +118,11 @@ public class LoginActivity extends Activity {
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     Users user = documentSnapshot.toObject(Users.class);
                                     progressBar.setVisibility(View.GONE);
-                                    int type = user.getRoleId();
-                                    switch (type) {
-                                        case CONFIG.ADMIN:
-                                            //create shared preference and store data
-                                            session.createLoginSession(auth.getCurrentUser().getDisplayName(),auth.getCurrentUser().getEmail(),auth.getCurrentUser().getPhoneNumber(),auth.getCurrentUser().getUid());
-                                            lunchAdminScreen();
-                                            break;
-                                        case CONFIG.DOCTOR:
+
                                             session.createLoginSession(auth.getCurrentUser().getDisplayName(),auth.getCurrentUser().getEmail(),auth.getCurrentUser().getPhoneNumber(),auth.getCurrentUser().getUid());
 
-                                            lunchDoctorScreen();
-                                            break;
-                                        default:
-                                            Toasty.error(getApplicationContext(),"Sorry, Unknown user type please contact app developer" , Toast.LENGTH_LONG).show();
-                                            break;
-                                    }
-                                    getSharedPreferences("myPref", MODE_PRIVATE).edit().putInt("userType",type).apply();
+                                    getSharedPreferences("myPref", MODE_PRIVATE).edit().putInt("userType",2).apply();
+                                        lunchDoctorScreen();
 
 
                                 }
@@ -130,7 +130,7 @@ public class LoginActivity extends Activity {
                         }
                     }
                 });
-
+        }
     }
 
     //reset BTN

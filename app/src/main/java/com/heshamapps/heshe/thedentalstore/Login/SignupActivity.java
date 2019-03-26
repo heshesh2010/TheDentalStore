@@ -40,14 +40,6 @@ public class SignupActivity extends Activity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-   @BindView(R.id.userTypeRadioGroup)
-    RadioGroup userTypeRadioGroup;
-
-    @BindView(R.id.adminRB)
-    RadioButton adminRB;
-
-    @BindView(R.id.studentRB)
-    RadioButton studentRB;
 
     int type ;
 
@@ -115,34 +107,18 @@ public class SignupActivity extends Activity {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if(task.isSuccessful()){
-                            int selectedId  = userTypeRadioGroup.getCheckedRadioButtonId();
-                            // find which radio button is selected
-                            if(selectedId == R.id.adminRB) {
-                                type = 1 ;
-                                Toast.makeText(getApplicationContext(), "choice: admin",
-                                        Toast.LENGTH_SHORT).show();
-                            } else if
-                                    (selectedId == R.id.studentRB) {
-                                type = 2 ;
-                                Toast.makeText(getApplicationContext(), "choice: student",
-                                        Toast.LENGTH_SHORT).show();
 
-                            }
                             // save user to database firestore
                             db.collection("users").document(auth.getUid())
-                                    .set(new Users(email,auth.getUid(),type))
+                                    .set(new Users(email,auth.getUid(),2))
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                            if(type==1){
+
                                                 startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                                 finish();
-                                            }
-                                            else{
-                                                startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                                                finish();
-                                            }
+
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {

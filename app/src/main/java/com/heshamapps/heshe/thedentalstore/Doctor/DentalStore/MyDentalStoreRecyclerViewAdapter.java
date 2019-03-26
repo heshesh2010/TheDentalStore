@@ -50,7 +50,7 @@ public class MyDentalStoreRecyclerViewAdapter extends
     onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_order_item, parent, false);
+                .inflate(R.layout.my_dental_store_item, parent, false);
 
         MyDentalStoreRecyclerViewAdapter.ViewHolder viewHolder =
                 new MyDentalStoreRecyclerViewAdapter.ViewHolder(view);

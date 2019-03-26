@@ -163,8 +163,7 @@ public class ManageOrdersRecyclerViewAdapter extends
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        ordersList.remove(position);
-                        notifyItemRangeChanged(position, ordersList.size());
+                        notifyDataSetChanged();
                         Toast.makeText(context,
                                 "order document has been Updated",
                                 Toast.LENGTH_SHORT).show();

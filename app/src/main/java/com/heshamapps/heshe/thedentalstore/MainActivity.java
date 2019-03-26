@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.heshamapps.heshe.thedentalstore.fragment.MainFragment;
@@ -29,7 +30,8 @@ public class MainActivity extends FragmentActivity {
         mToolbar.setTitle("The Dental Store ");
         new DrawerUtil(this,mToolbar,  FirebaseAuth.getInstance());
 
-       getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
 
 
     }

@@ -84,7 +84,6 @@ public class DrawerUtil {
                             })
                             .build();
                     mDrawerResult.deselect(mItemLogin.getIdentifier());
-                    mCurrentProfile = checkCurrentProfileStatus();
                     break;
                 case CONFIG.DOCTOR:
                     mDrawerResult = new DrawerBuilder()
@@ -98,7 +97,6 @@ public class DrawerUtil {
                             })
                             .build();
                     mDrawerResult.deselect(mItemLogin.getIdentifier());
-                    mCurrentProfile = checkCurrentProfileStatus();
                     break;
                 default:
                     mDrawerResult = new DrawerBuilder()
@@ -138,14 +136,6 @@ public class DrawerUtil {
 
     }
 
-    private static PrimaryDrawerItem checkCurrentProfileStatus(){
-        if (mFirebaseUser.isEmailVerified()){
-            mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.verified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_verified_user_black_24dp));;
-        }else{
-            mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.unverified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_report_problem_black_24dp));
-        }
-        return mCurrentProfile;
-    }
 
     private static boolean isUserSignedIn(){
         return session.isLoggedIn();
@@ -275,7 +265,7 @@ public class DrawerUtil {
     }
 
 
-    private int getUserType(){
+    private static int getUserType(){
 
         SharedPreferences prefs = activity.getSharedPreferences("myPref", MODE_PRIVATE);
 
@@ -309,8 +299,11 @@ public class DrawerUtil {
 
     private static void signOutUser() {
         //Sign out
-        mFirebaseAuth.signOut();
-       // mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if(getUserType()==2)
+            mFirebaseAuth.signOut();
+
+
+        // mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         session.logoutUser();
 

@@ -72,9 +72,12 @@ public class UserSession {
     /**
      * Create login session
      * */
+    public void createLoginSession(){
+        editor.putBoolean(IS_LOGIN, true).commit();
+    }
+
     public void createLoginSession(String name, String email, String mobile, String UID){
         // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
         editor.putString(KEY_NAME, name);
@@ -87,6 +90,8 @@ public class UserSession {
 
         // Storing image url in pref
       editor.putString(KEY_UID, UID);
+
+        editor.putBoolean(IS_LOGIN, true);
 
         // Storing image url in pref
       //  editor.putString(KEY_PHOTO, photo);

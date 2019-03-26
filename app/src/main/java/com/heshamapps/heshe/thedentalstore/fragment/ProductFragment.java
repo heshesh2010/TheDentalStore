@@ -239,7 +239,7 @@ public class ProductFragment extends Fragment {
 
     @OnClick(R.id.addToCart_btn)
     public void addToCart(View view) {
-        session.checkLogin();
+      //  session.checkLogin();
         if(session.isLoggedIn()){
 
             mDatabaseReference.collection("Cart").document(session.getUserDetails().get(UserSession.KEY_UID))

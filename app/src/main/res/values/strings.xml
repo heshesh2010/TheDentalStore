@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Dental Store</string>
+    <string name="app_name">ODS</string>
 
     <string name="loginActivity_name">Login</string>
     <string name="loginActivity_usernameTV">User ID :</string>
@@ -17,7 +17,7 @@
 
     <string name="hint_password">Password</string>
     <string name="signUpActivity_userTypeAdmin">Admin</string>
-    <string name="signUpActivity_userTypeStudent">Student</string>
+    <string name="signUpActivity_userTypeStudent">Doctor</string>
 
     <string name="email">Email</string>
     <string name="hint_email">Email</string>
