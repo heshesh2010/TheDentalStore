@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -116,7 +117,7 @@ public class ProductFragment extends Fragment {
         productTitle.setText(m_ProductModel.getTitle());
         productPrice.setText(String.valueOf(m_ProductModel.getPrice()));
         productDesc.setText(m_ProductModel.getDesc());
-        productExpire .setText( m_ProductModel.getExpired_date());
+        productExpire .setText( m_ProductModel.getExpired_date().toString());
          price = Integer.parseInt(productPrice.getText().toString());
         TempPrice=price;
 
@@ -309,7 +310,7 @@ public class ProductFragment extends Fragment {
                         map.put("productId", docID);
                         map.put("Comment", task);
                         map.put("Image",session.getUserDetails().get("photo"));
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                         Date todayDate = Calendar.getInstance().getTime();
                         String todayString = formatter.format(todayDate);
                         map.put("CommentDate",todayString);

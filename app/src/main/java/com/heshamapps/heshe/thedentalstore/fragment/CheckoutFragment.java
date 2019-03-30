@@ -21,6 +21,7 @@ import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
 import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
+import com.heshamapps.heshe.thedentalstore.view.ViewDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
@@ -130,7 +131,22 @@ public class CheckoutFragment extends Fragment {
         mainActivityMultiLineRadioGroup.setOnCheckedChangeListener(new MultiLineRadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ViewGroup group, RadioButton button) {
+
+
+                switch(button.getText().toString()) {
+                    case "PayPal":
+                        break;
+                    case "visa/master":
+                        ViewDialog alert = new ViewDialog();
+                        alert.showDialog(getActivity(), "Error de conexión al servidor");
+                        break;
+                    case "COD":
+                        break;
+                    default:
+                }
+
                 payment_mode=button.getText().toString();
+
             }
         });
 

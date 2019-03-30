@@ -84,6 +84,8 @@ public class DrawerUtil {
                             })
                             .build();
                     mDrawerResult.deselect(mItemLogin.getIdentifier());
+                    mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.verified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_verified_user_black_24dp));;
+
                     break;
                 case CONFIG.DOCTOR:
                     mDrawerResult = new DrawerBuilder()
@@ -97,6 +99,7 @@ public class DrawerUtil {
                             })
                             .build();
                     mDrawerResult.deselect(mItemLogin.getIdentifier());
+                    mCurrentProfile = checkCurrentProfileStatus();
                     break;
                 default:
                     mDrawerResult = new DrawerBuilder()
@@ -136,6 +139,14 @@ public class DrawerUtil {
 
     }
 
+    private static PrimaryDrawerItem checkCurrentProfileStatus(){
+        if (mFirebaseUser.isEmailVerified()){
+            mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.verified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_verified_user_black_24dp));;
+        }else{
+            mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.unverified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_report_problem_black_24dp));
+        }
+        return mCurrentProfile;
+    }
 
     private static boolean isUserSignedIn(){
         return session.isLoggedIn();
@@ -165,7 +176,7 @@ public class DrawerUtil {
     private static AccountHeader setupAccountHeader(){
         mHeaderResult = new AccountHeaderBuilder()
                 .withActivity(activity)
-                .withHeaderBackground(R.drawable.header)
+                .withHeaderBackground(R.drawable.logo)
                 .addProfiles(mProfileDrawerItem)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -206,9 +217,15 @@ public class DrawerUtil {
                                 }
                             });*/
 
-            }} else {//else if the user is not logged in, show a default icon
+            }} else {
+            if(getUserType()==1)//else if the user is not logged in, show a default icon
             mProfileDrawerItem = new ProfileDrawerItem()
-                    .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp));
+                    .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp))
+            .withEmail("admin@gmail.com");
+            else{
+                mProfileDrawerItem = new ProfileDrawerItem()
+                        .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp))  ;
+            }
         }
     }
 

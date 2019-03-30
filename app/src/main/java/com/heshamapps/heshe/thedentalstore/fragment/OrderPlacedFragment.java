@@ -26,6 +26,7 @@ import javax.mail.internet.MimeMultipart;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.heshamapps.heshe.thedentalstore.R;
+import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 
 import java.util.Properties;
 
@@ -34,13 +35,15 @@ import javax.sql.DataSource;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 public class OrderPlacedFragment extends Fragment {
 
     @BindView(R.id.orderid)
     TextView orderidview;
 
     private String orderid;
-
+    UserSession session;
     public OrderPlacedFragment() {
         // Required empty public constructor
     }
@@ -68,14 +71,15 @@ public class OrderPlacedFragment extends Fragment {
 
 
     public void sendEmail() {
+        session = new UserSession(getActivity());
 
         BackgroundMail.newBuilder(getActivity())
                 .withUsername("shreen.ods2019@gmail.com")
                 .withPassword("$S15#07#1997m$")
-                .withMailto("hesham.elnemr@gmail.com")
+                .withMailto(session.KEY_EMAIL)
                 .withType(BackgroundMail.TYPE_PLAIN)
-                .withSubject("this is the subject")
-                .withBody("this is the body")
+                .withSubject("order placed")
+                .withBody("your order id = " + orderid +" is placed")
                 .withOnSuccessCallback(() -> {
                     //do some magic
                 })

@@ -107,11 +107,9 @@ public class OrdersRecyclerViewAdapter extends
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        ordersList.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, ordersList.size());
+                     notifyDataSetChanged();
                         Toast.makeText(context,
-                                "order document has been deleted",
+                                "order document has been cancelled",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
