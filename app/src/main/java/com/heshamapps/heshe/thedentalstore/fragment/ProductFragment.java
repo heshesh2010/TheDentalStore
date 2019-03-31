@@ -306,7 +306,7 @@ public class ProductFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String task = String.valueOf(taskEditText.getText());
-                        map.put("CommentUser", "hesham");
+                        map.put("CommentUser", "shereen");
                         map.put("productId", docID);
                         map.put("Comment", task);
                         map.put("Image",session.getUserDetails().get("photo"));
