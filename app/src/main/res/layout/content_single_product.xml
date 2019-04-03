@@ -175,7 +175,8 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:backgroundTint="#eeeeee"
+            android:theme="@style/AppTheme.RoundedCornerMaterialButton"
+
             android:text="@string/minus"
             />
 
@@ -197,9 +198,10 @@
         <Button
             android:id="@+id/incrementQuantity_btn"
             android:layout_width="48dp"
+            android:theme="@style/AppTheme.RoundedCornerMaterialButton"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:backgroundTint="#eeeeee"
+
             android:text="@string/plus" />
     </LinearLayout>
 

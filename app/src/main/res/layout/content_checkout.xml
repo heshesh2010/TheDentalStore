@@ -166,15 +166,33 @@
                 app:met_primaryColor="@color/colorPrimaryDark"
                 android:inputType="number" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/orderaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Complete address"
-                android:minLines="3"
+                android:hint="Gps Lat % Lang"
+                android:minLines="0"
+                android:layout_toStartOf="@+id/place_order2"
                 app:met_iconLeft="@drawable/home"
                 app:met_floatingLabel="highlight"
                 app:met_primaryColor="@color/colorPrimaryDark"/>
+
+                <ImageView
+                    android:id="@+id/place_order2"
+                    style="@style/AppTheme.RoundedCornerMaterialButton"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorPrimary"
+                    android:src="@drawable/ordernow" />
+
+            </RelativeLayout>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/orderpincode"

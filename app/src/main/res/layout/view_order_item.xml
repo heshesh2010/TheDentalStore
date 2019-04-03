@@ -112,6 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel order"
+        android:theme="@style/AppTheme.RoundedCornerMaterialButton"
         android:layout_below="@+id/status_tv"/>
 
 

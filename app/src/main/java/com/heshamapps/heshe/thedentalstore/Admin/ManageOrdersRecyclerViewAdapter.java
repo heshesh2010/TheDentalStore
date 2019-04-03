@@ -12,11 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
 import com.heshamapps.heshe.thedentalstore.R;
+import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class ManageOrdersRecyclerViewAdapter extends
     private Context context;
     private FirebaseFirestore firestoreDB;
     int SpinnerPos=0;
+    UserSession session;
 
     public ManageOrdersRecyclerViewAdapter(List<PlacedOrderModel> list, Context ctx, FirebaseFirestore firestore) {
         ordersList = list;
@@ -77,18 +80,11 @@ public class ManageOrdersRecyclerViewAdapter extends
         holder.delivery_date.setText(order.getDelivery_date());
         holder.status.setSelection(SpinnerPos);
 
-          //      setText(order.getStatus());
-
-        holder.save_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             //   save_OrderFragment(order);
-            }
-        });
 
         holder.delete_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sendEmail(order,"Deleted");
 
                 deleteOrder(order.getOrderid(), itemPos);
             }
@@ -98,9 +94,30 @@ public class ManageOrdersRecyclerViewAdapter extends
             @Override
             public void onClick(View view) {
 
+                sendEmail(order,holder.status.getSelectedItem().toString());
                 saveOrder(order.getOrderid(), itemPos,holder.status.getSelectedItem().toString());
             }
         });
+
+    }
+
+    public void sendEmail(PlacedOrderModel order,String OrderCase) {
+        session = new UserSession(context);
+
+        BackgroundMail.newBuilder(context)
+                .withUsername("shreen.ods2019@gmail.com")
+                .withPassword("$S15#07#1997m$")
+                .withMailto(UserSession.KEY_EMAIL)
+                .withType(BackgroundMail.TYPE_PLAIN)
+                .withSubject("order placed")
+                .withBody("your order id = " + order.getOrderid() +" is " + OrderCase)
+                .withOnSuccessCallback(() -> {
+                    //do some magic
+                })
+                .withOnFailCallback(() -> {
+                    //do some magic
+                })
+                .send();
 
     }
 

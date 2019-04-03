@@ -1,9 +1,18 @@
 package com.heshamapps.heshe.thedentalstore.fragment;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +35,14 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,11 +51,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.heshamapps.heshe.thedentalstore.MainActivity;
 import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 
 import com.heshamapps.heshe.thedentalstore.R;
+import com.heshamapps.heshe.thedentalstore.util.EasyLocationProvider;
 import com.heshamapps.heshe.thedentalstore.view.GridSpacingItemDecoration;
+
+import java.util.ArrayList;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class MainFragment extends Fragment {
 
@@ -86,6 +111,7 @@ public class MainFragment extends Fragment {
         rv.addItemDecoration(new GridSpacingItemDecoration(2,1, true));
         rv.setItemAnimator(new DefaultItemAnimator());
 
+
         CompoundButton.OnCheckedChangeListener filterChipListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -122,8 +148,28 @@ public class MainFragment extends Fragment {
                 });*/
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return view;
     }
+
+
+
+
+
+
 
     private  void updaterecycleview(CharSequence text){
         adapter.stopListening();
@@ -223,6 +269,7 @@ public class MainFragment extends Fragment {
         super.onStart();
         getProductsList();
         adapter.startListening();
+
     }
 
     @Override

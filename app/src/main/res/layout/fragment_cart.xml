@@ -52,6 +52,7 @@
             android:src="@drawable/cartempty"
             android:visibility="invisible"
             app:lottie_loop="true"
+            android:theme="@style/AppTheme.RoundedCornerMaterialButton"
             app:lottie_autoPlay="true"/>
 
 

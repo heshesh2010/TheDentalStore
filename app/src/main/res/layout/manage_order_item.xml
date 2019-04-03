@@ -118,6 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
+        android:theme="@style/AppTheme.RoundedCornerMaterialButton"
         android:layout_below="@+id/status_tv"/>
 
     <Button
@@ -125,6 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/save_order_b"
+        android:theme="@style/AppTheme.RoundedCornerMaterialButton"
         android:layout_alignBaseline="@+id/save_order_b"
         android:text="Delete" />
 

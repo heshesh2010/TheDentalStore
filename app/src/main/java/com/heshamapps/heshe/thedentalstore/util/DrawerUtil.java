@@ -84,7 +84,6 @@ public class DrawerUtil {
                             })
                             .build();
                     mDrawerResult.deselect(mItemLogin.getIdentifier());
-                    mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.verified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_verified_user_black_24dp));;
 
                     break;
                 case CONFIG.DOCTOR:
@@ -99,7 +98,6 @@ public class DrawerUtil {
                             })
                             .build();
                     mDrawerResult.deselect(mItemLogin.getIdentifier());
-                    mCurrentProfile = checkCurrentProfileStatus();
                     break;
                 default:
                     mDrawerResult = new DrawerBuilder()
@@ -139,14 +137,7 @@ public class DrawerUtil {
 
     }
 
-    private static PrimaryDrawerItem checkCurrentProfileStatus(){
-        if (mFirebaseUser.isEmailVerified()){
-            mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.verified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_verified_user_black_24dp));;
-        }else{
-            mCurrentProfile = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.unverified_profile).withIcon(activity.getResources().getDrawable(R.mipmap.ic_report_problem_black_24dp));
-        }
-        return mCurrentProfile;
-    }
+
 
     private static boolean isUserSignedIn(){
         return session.isLoggedIn();
