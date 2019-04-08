@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 
 import android.se.omapi.Session;
 import android.view.LayoutInflater;

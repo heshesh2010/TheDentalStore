@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -220,7 +220,7 @@ public class MainFragment extends Fragment {
                     ProductFragment m_ProductFragment = new ProductFragment();
                     m_ProductFragment.setArguments(bundle);
 
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductFragment).commit();
+                    getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductFragment).commit();
 
 
                 });

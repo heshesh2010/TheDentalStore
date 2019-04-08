@@ -3,7 +3,7 @@ package com.heshamapps.heshe.thedentalstore.fragment;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -176,7 +176,7 @@ public class CartFragment extends Fragment {
                         DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
                         snapshot.getReference().delete();
                         session.decreaseCartValue();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+                        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
 
                     }
                 });
@@ -213,7 +213,7 @@ public class CartFragment extends Fragment {
             CheckoutFragment m_CheckoutFragment = new CheckoutFragment();
             m_CheckoutFragment.setArguments(bundle);
 
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_CheckoutFragment).commit();
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_CheckoutFragment).commit();
 
 
         }

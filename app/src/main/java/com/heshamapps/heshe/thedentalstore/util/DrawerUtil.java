@@ -150,7 +150,7 @@ public class DrawerUtil {
 
 
         mItemStore = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.store).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
-       mItemCart= new PrimaryDrawerItem().withIdentifier(4).withName(R.string.cart).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
+        mItemCart= new PrimaryDrawerItem().withIdentifier(4).withName(R.string.cart).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
 
         mItemLogin = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.login_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_login_black_48dp));
         mItemLogout = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.logout_menu_item).withIcon(activity.getResources().getDrawable(R.mipmap.ic_logout_black_48dp));
@@ -210,9 +210,9 @@ public class DrawerUtil {
 
             }} else {
             if(getUserType()==1)//else if the user is not logged in, show a default icon
-            mProfileDrawerItem = new ProfileDrawerItem()
-                    .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp))
-            .withEmail("admin@gmail.com");
+                mProfileDrawerItem = new ProfileDrawerItem()
+                        .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp))
+                        .withEmail("admin@gmail.com");
             else{
                 mProfileDrawerItem = new ProfileDrawerItem()
                         .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp))  ;
@@ -225,12 +225,12 @@ public class DrawerUtil {
 
             //store
             case 3:
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
                 break;
 
             //cart
             case 4:
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
                 break;
 
             //Sign In
@@ -241,31 +241,31 @@ public class DrawerUtil {
 
             //Sign Out
             case 6:
-               signOutUser();
+                signOutUser();
                 Toast.makeText(activity, "Sign out menu selected", Toast.LENGTH_LONG).show();
                 break;
 
             // Doctor Orders
             case 7:
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).commit();
                 Toast.makeText(activity, "Doctor Orders menu selected", Toast.LENGTH_LONG).show();
 
                 break;
 
             //Admin Order
             case 8:
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ManageOrdersFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ManageOrdersFragment()).commit();
                 Toast.makeText(activity, "Admin Manage Orders menu selected", Toast.LENGTH_LONG).show();
                 break;
 
-                // about
+            // about
             case 9:
-              //  activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
+                //  activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
                 Toast.makeText(activity, "About menu selected", Toast.LENGTH_LONG).show();
-            break;
+                break;
             // dental Store
             case 10:
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MyDentalStoreFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MyDentalStoreFragment()).commit();
                 Toast.makeText(activity, "My dental menu selected", Toast.LENGTH_LONG).show();
                 break;
         }
@@ -301,7 +301,7 @@ public class DrawerUtil {
         activity.startActivity(new Intent(activity.getApplicationContext(), LoginActivity.class));
         activity.finish();
 
-     //   ((TextView)findViewById(R.id.idContent)).setText(R.string.welcome_on_signin);
+        //   ((TextView)findViewById(R.id.idContent)).setText(R.string.welcome_on_signin);
     }
 
 

@@ -7,7 +7,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.craftman.cardform.Card;
 import com.craftman.cardform.CardForm;
+import com.craftman.cardform.OnPayBtnClickListner;
 import com.heshamapps.heshe.thedentalstore.R;
 
 public class ViewDialog {
@@ -24,8 +26,18 @@ public class ViewDialog {
 
         Button btn = (Button) (cardForm.getRootView().findViewById(R.id.btn_pay));
         btn.setText("Pay");
-        TextView amount = (TextView) (cardForm.getRootView().findViewById(R.id.payment_amount));
-        amount.setText(msg);
+
+
+        cardForm.setPayBtnClickListner(new OnPayBtnClickListner() {
+            @Override
+            public void onClick(Card card) {
+                //Your code here!! use card.getXXX() for get any card property
+                //for instance card.getName();
+                dialog.dismiss();
+            }
+        });
+
+        ((TextView)cardForm.getRootView().findViewById(R.id.payment_amount)).setText(msg);
 
         //
 
@@ -33,7 +45,7 @@ public class ViewDialog {
       /*  dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+
             }
         });*/
 

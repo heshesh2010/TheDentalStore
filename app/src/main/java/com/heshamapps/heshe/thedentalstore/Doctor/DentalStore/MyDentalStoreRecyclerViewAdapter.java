@@ -1,5 +1,6 @@
 package com.heshamapps.heshe.thedentalstore.Doctor.DentalStore;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,10 +32,10 @@ public class MyDentalStoreRecyclerViewAdapter extends
         RecyclerView.Adapter<MyDentalStoreRecyclerViewAdapter.ViewHolder> {
 
     private List<PlacedOrderModel> ordersList;
-    private FragmentActivity activity;
+    private Activity activity;
     private FirebaseFirestore firestoreDB;
 
-    public MyDentalStoreRecyclerViewAdapter(List<PlacedOrderModel> list, FragmentActivity activity, FirebaseFirestore firestore) {
+    public MyDentalStoreRecyclerViewAdapter(List<PlacedOrderModel> list, Activity activity, FirebaseFirestore firestore) {
         this.ordersList = list;
         this.activity = activity;
         this.firestoreDB = firestore;
@@ -125,7 +126,7 @@ public class MyDentalStoreRecyclerViewAdapter extends
                                                                         ProductsOfOrdersFragment m_ProductsOfOrdersFragment = new ProductsOfOrdersFragment();
                                                                         m_ProductsOfOrdersFragment.setArguments(bundle);
 
-                                                                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductsOfOrdersFragment).commit();
+                                                                        activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductsOfOrdersFragment).commit();
 
 
 

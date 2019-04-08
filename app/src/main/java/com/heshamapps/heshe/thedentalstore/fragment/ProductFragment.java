@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -276,7 +276,7 @@ public class ProductFragment extends Fragment {
     @OnClick(R.id.fab)
     public void goToCart(View view) {
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
         //finish();
 
     }
