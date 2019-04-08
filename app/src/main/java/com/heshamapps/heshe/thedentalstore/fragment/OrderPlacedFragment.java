@@ -34,8 +34,10 @@ import javax.sql.DataSource;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+import static com.heshamapps.heshe.thedentalstore.usersession.UserSession.KEY_EMAIL;
 
 public class OrderPlacedFragment extends Fragment {
 
@@ -76,7 +78,7 @@ public class OrderPlacedFragment extends Fragment {
         BackgroundMail.newBuilder(getActivity())
                 .withUsername("shreen.ods2019@gmail.com")
                 .withPassword("$S15#07#1997m$")
-                .withMailto(session.KEY_EMAIL)
+                .withMailto(session.getUserDetails().get(KEY_EMAIL))
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("order placed")
                 .withBody("your order id = " + orderid +" is placed")
@@ -87,7 +89,7 @@ public class OrderPlacedFragment extends Fragment {
                     //do some magic
                 })
                 .send();
-
+        Toasty.success(getActivity(),"email sent").show();
     }
 
     @Override

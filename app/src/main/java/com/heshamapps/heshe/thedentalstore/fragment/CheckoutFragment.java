@@ -352,8 +352,8 @@ public class CheckoutFragment extends Fragment {
         } else if (ordernumber.getText().toString().length() < 4 || ordernumber.getText().toString().length() > 12) {
             ordernumber.setError("Number Must consist of 10 characters");
             return false;
-        } else if (orderpincode.getText().toString().length() < 6 || ordernumber.getText().toString().length() > 8){
-            orderpincode.setError("Pincode must be of 6 digits");
+        } else if (orderpincode.getText().toString().length() < 6 || orderpincode.getText().toString().length() > 8){
+            orderpincode.setError("Pincode must be of 6 or 7 digits");
             return false;
         }
 
