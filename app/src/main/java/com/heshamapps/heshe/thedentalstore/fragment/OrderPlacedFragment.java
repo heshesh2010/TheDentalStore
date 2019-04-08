@@ -89,7 +89,6 @@ public class OrderPlacedFragment extends Fragment {
                     //do some magic
                 })
                 .send();
-        Toasty.success(getActivity(),"email sent").show();
     }
 
     @Override

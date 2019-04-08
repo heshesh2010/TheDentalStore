@@ -12,6 +12,8 @@ import com.craftman.cardform.CardForm;
 import com.craftman.cardform.OnPayBtnClickListner;
 import com.heshamapps.heshe.thedentalstore.R;
 
+import es.dmoral.toasty.Toasty;
+
 public class ViewDialog {
     CardForm cardForm;
 
@@ -34,6 +36,8 @@ public class ViewDialog {
                 //Your code here!! use card.getXXX() for get any card property
                 //for instance card.getName();
                 dialog.dismiss();
+                Toasty.success(activity,"payment done").show();
+
             }
         });
 
