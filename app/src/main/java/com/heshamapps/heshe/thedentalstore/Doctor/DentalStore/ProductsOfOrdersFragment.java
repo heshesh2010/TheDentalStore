@@ -53,6 +53,7 @@ public class ProductsOfOrdersFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_orders_deatils, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("product of order");
 
         productsOfOrder= getArguments().getParcelableArrayList("productsOfOrder");
 

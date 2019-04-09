@@ -3,15 +3,21 @@ package com.heshamapps.heshe.thedentalstore.util;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.heshamapps.heshe.thedentalstore.Admin.ManageOrdersFragment;
 import com.heshamapps.heshe.thedentalstore.Doctor.DentalStore.MyDentalStoreFragment;
 import com.heshamapps.heshe.thedentalstore.Doctor.ViewOrdersFragment;
 import com.heshamapps.heshe.thedentalstore.Login.LoginActivity;
+import com.heshamapps.heshe.thedentalstore.Login.editProfileActivity;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.fragment.CartFragment;
 import com.heshamapps.heshe.thedentalstore.fragment.MainFragment;
@@ -25,6 +31,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
@@ -46,6 +55,8 @@ public class DrawerUtil {
     private static PrimaryDrawerItem mItemAdminOrderSetting;
     private static PrimaryDrawerItem mItemDoctorOrderSetting;
     private static PrimaryDrawerItem mItemMyDentalStore;
+    private static PrimaryDrawerItem mItemSetting;
+
     private static PrimaryDrawerItem mItemVerifiedProfile;
     private static PrimaryDrawerItem mItemUnverifiedProfile;
     private static PrimaryDrawerItem mItemAbout;
@@ -91,7 +102,7 @@ public class DrawerUtil {
                             .withActivity(activity)
                             .withAccountHeader(setupAccountHeader())
                             .withToolbar(mToolbar)
-                            .addDrawerItems(mItemStore,mItemCart,mItemMyDentalStore,mItemLogout, new DividerDrawerItem(),mItemDoctorOrderSetting,mItemAbout)
+                            .addDrawerItems(mItemStore,mItemCart,mItemMyDentalStore,mItemLogout, new DividerDrawerItem(),mItemDoctorOrderSetting,mItemSetting,mItemAbout)
                             .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                                 onNavDrawerItemSelected((int)drawerItem.getIdentifier());
                                 return true;
@@ -158,6 +169,8 @@ public class DrawerUtil {
         mItemDoctorOrderSetting = new PrimaryDrawerItem().withIdentifier(7).withName(R.string.doctorOrderSetting).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
         mItemAbout = new PrimaryDrawerItem().withIdentifier(9).withName(R.string.about).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
         mItemMyDentalStore = new PrimaryDrawerItem().withIdentifier(10).withName(R.string.MyDentalStore).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+        mItemSetting = new PrimaryDrawerItem().withIdentifier(11).withName(R.string.settings).withIcon(activity.getResources().getDrawable(R.mipmap.ic_settings_black_48dp));
+
 
 
 
@@ -191,22 +204,23 @@ public class DrawerUtil {
                         .withIcon((activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp)));
             }
             else{
+               ;
                 mProfileDrawerItem = new ProfileDrawerItem()
                         .withName(mFirebaseUser.getDisplayName())
                         .withEmail(mFirebaseUser.getEmail())
-                        .withIcon(mFirebaseUser.getPhotoUrl());
+                        .withIcon(getFacePhoto());
                 //initialize and create the image loader logic
-                          /*  DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+                            DrawerImageLoader.init(new AbstractDrawerImageLoader() {
                                 @Override
                                 public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                                    Picasso.with(imageView.getContext()).load(mFirebaseUser.getPhotoUrl()).placeholder(placeholder).into(imageView);
+                                    Picasso.with(imageView.getContext()).load(getFacePhoto()).placeholder(placeholder).into(imageView);
                                 }
 
                                 @Override
                                 public void cancel(ImageView imageView) {
                                     Picasso.with(imageView.getContext()).cancelRequest(imageView);
                                 }
-                            });*/
+                            });
 
             }} else {
             if(getUserType()==1)//else if the user is not logged in, show a default icon
@@ -218,6 +232,34 @@ public class DrawerUtil {
                         .withIcon(activity.getResources().getDrawable(R.mipmap.ic_account_circle_black_48dp))  ;
             }
         }
+    }
+
+    private static String getFacePhoto() {
+        String facebookUserId = "";
+        String photoUrl="";
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+// find the Facebook profile and get the user's id
+        if (user != null) {
+            for(UserInfo profile : user.getProviderData()) {
+                // check if the provider id matches "facebook.com"
+                if(FacebookAuthProvider.PROVIDER_ID.equals(profile.getProviderId())) {
+                    facebookUserId = profile.getUid();
+                     photoUrl = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
+                     break;
+                }
+                else{
+                    if(profile.getPhotoUrl()!=null)
+                    photoUrl = profile.getPhotoUrl().toString();
+                    break;
+                }
+
+            }
+        }
+
+// construct the URL to the profile picture, with a custom height
+// alternatively, use '?type=small|medium|large' instead of ?height=
+return photoUrl;
     }
 
     private static void onNavDrawerItemSelected(int drawerItemIdentifier){
@@ -268,6 +310,12 @@ public class DrawerUtil {
                 activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MyDentalStoreFragment()).commit();
                 Toast.makeText(activity, "My dental menu selected", Toast.LENGTH_LONG).show();
                 break;
+            // dental Store
+            case 11:
+                activity.startActivity(new Intent(activity.getApplicationContext(), editProfileActivity.class));
+                activity.finish();
+                Toast.makeText(activity, "setting menu selected", Toast.LENGTH_LONG).show();
+                break;
         }
         mDrawerResult.closeDrawer();
     }
@@ -307,13 +355,11 @@ public class DrawerUtil {
 
     private static void signOutUser() {
         //Sign out
-        if(getUserType()==2)
+        if(getUserType()==2) {
             mFirebaseAuth.signOut();
+            session.logoutUser();
+        }
 
-
-        // mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
-        session.logoutUser();
 
         if (!isUserSignedIn()) {
 

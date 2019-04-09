@@ -76,7 +76,7 @@ public class UserSession {
         editor.putBoolean(IS_LOGIN, true).commit();
     }
 
-    public void createLoginSession(String name, String email, String mobile, String UID){
+    public void createLoginSession(String name, String email, String mobile, String UID,String photo){
         // Storing login value as TRUE
 
         // Storing name in pref
@@ -94,7 +94,7 @@ public class UserSession {
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing image url in pref
-      //  editor.putString(KEY_PHOTO, photo);
+        editor.putString(KEY_PHOTO, photo);
 
         // commit changes
         editor.commit();
@@ -239,5 +239,28 @@ public class UserSession {
 
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    }
+
+    public void createLoginSession(String displayName, String email, String phoneNumber, String uid) {
+        // Storing login value as TRUE
+
+        // Storing name in pref
+        editor.putString(KEY_NAME, displayName);
+
+        // Storing email in pref
+        editor.putString(KEY_EMAIL, email);
+
+        // Storing phone number in pref
+        editor.putString(KEY_MOBiLE, phoneNumber);
+
+        // Storing image url in pref
+        editor.putString(KEY_UID, uid);
+
+        editor.putBoolean(IS_LOGIN, true);
+
+        // Storing image url in pref
+
+        // commit changes
+        editor.commit();
     }
 }

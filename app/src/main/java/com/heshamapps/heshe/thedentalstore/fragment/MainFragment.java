@@ -106,6 +106,8 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("ODS");
+
         // Inflate the layout for this fragment
         rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rv.addItemDecoration(new GridSpacingItemDecoration(2,1, true));

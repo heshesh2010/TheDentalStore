@@ -74,6 +74,7 @@ public class MyDentalStoreFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_dental_store, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("My dental store");
 
 
         LinearLayoutManager recyclerLayoutManager =

@@ -40,8 +40,15 @@ public class SignupActivity extends Activity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.name)
+    EditText inputName;
 
-    int type ;
+    @BindView(R.id.phone)
+    EditText inputPhone;
+
+    @BindView(R.id.address)
+    EditText inputAddress;
+
 
 
     private FirebaseAuth auth;
@@ -80,6 +87,9 @@ public class SignupActivity extends Activity {
 
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
+        String name = inputName.getText().toString().trim();
+        String phone = inputPhone.getText().toString().trim();
+        String address = inputAddress.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             Toasty.warning(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -90,6 +100,20 @@ public class SignupActivity extends Activity {
             Toasty.warning(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if(TextUtils.isEmpty(name)){
+            Toasty.warning(getApplicationContext(), "Enter name!", Toast.LENGTH_SHORT).show();
+
+        }
+
+        if(TextUtils.isEmpty(phone)){
+            Toasty.warning(getApplicationContext(), "Enter phone!", Toast.LENGTH_SHORT).show();
+        }
+
+        if(TextUtils.isEmpty(address)){
+            Toasty.warning(getApplicationContext(), "Enter address!", Toast.LENGTH_SHORT).show();
+        }
+
 
         if (password.length() < 6) {
             Toasty.error(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
@@ -110,7 +134,7 @@ public class SignupActivity extends Activity {
 
                             // save user to database firestore
                             db.collection("users").document(auth.getUid())
-                                    .set(new Users(email,auth.getUid(),2))
+                                    .set(new Users(email,auth.getUid(),2,name,phone, address))
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {

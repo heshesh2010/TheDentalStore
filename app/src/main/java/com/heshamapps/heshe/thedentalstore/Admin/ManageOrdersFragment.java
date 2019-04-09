@@ -74,6 +74,7 @@ public class ManageOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctor_orders, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("Order History");
 
 
         LinearLayoutManager recyclerLayoutManager =

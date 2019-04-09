@@ -123,6 +123,8 @@ public class CheckoutFragment extends Fragment {
         View view   = inflater.inflate(R.layout.fragment_checkout, container, false);
         ButterKnife.bind(this, view);
 
+        getActivity().setTitle("check out");
+
         //setting total price
         totalAmount.setText(getArguments().getString("totalprice").toString());
 
@@ -237,8 +239,6 @@ public class CheckoutFragment extends Fragment {
 
 
                 switch(button.getText().toString()) {
-                    case "PayPal":
-                        break;
                     case "visa/master":
                         ViewDialog alert = new ViewDialog();
                         alert.showDialog(getActivity(), String.valueOf(totalAmount.getText().toString()));

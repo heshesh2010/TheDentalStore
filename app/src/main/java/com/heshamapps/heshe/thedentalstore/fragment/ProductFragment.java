@@ -109,6 +109,7 @@ public class ProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view   = inflater.inflate(R.layout.fragment_product, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("Product details");
 
         m_ProductModel = (ProductModel) getArguments().getParcelable("product");
         docID=  getArguments().getString("docID");
@@ -340,7 +341,7 @@ public class ProductFragment extends Fragment {
     }
     private ProductModel getProductObject() {
 
-        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),m_ProductModel.getPrice(), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpired_date());
+        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString()), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpired_date());
 
     }
 

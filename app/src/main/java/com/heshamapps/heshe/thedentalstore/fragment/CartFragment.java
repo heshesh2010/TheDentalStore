@@ -89,7 +89,7 @@ public class CartFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         session = new UserSession(getActivity());
-
+        getActivity().setTitle("cart");
         //validating session
         session.isLoggedIn();
 
@@ -165,7 +165,7 @@ public class CartFragment extends Fragment {
                 viewHolder.cardCount.setText("Quantity : "+ model.getNo_of_items());
                 Picasso.with(getActivity()).load(model.getImage()).into(viewHolder.cardImage);
 
-                totalcost += model.getNo_of_items()*model.getPrice();
+                totalcost += model.getPrice();
                 totalproducts += model.getNo_of_items();
                 cartCollect.add(model);
 

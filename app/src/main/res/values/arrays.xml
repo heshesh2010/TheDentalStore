@@ -2,7 +2,6 @@
 <resources>
 
     <string-array name="radio_buttons">
-        <item>PayPal</item>
         <item>visa/master</item>
         <item>COD</item>
     </string-array>

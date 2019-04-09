@@ -63,6 +63,7 @@ public class OrderPlacedFragment extends Fragment {
 
         View view   = inflater.inflate(R.layout.fragment_order_placed, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("order placed");
 
         orderid = getArguments().getString("orderid");
         orderidview.setText(orderid);
@@ -81,7 +82,7 @@ public class OrderPlacedFragment extends Fragment {
                 .withMailto(session.getUserDetails().get(KEY_EMAIL))
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("order placed")
-                .withBody("your order id = " + orderid +" is placed")
+                .withBody("your order id = " + orderid +"is under preparation and it will deliver Within Three days")
                 .withOnSuccessCallback(() -> {
                     //do some magic
                 })
@@ -100,5 +101,4 @@ public class OrderPlacedFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
 }

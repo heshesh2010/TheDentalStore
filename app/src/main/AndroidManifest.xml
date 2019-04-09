@@ -6,9 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:name=".util.CustomApplication"
@@ -17,28 +21,36 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".Login.editProfileActivity"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDCXhLa1ZeGmKhjQkxqWRgQU3K6jQUlyQA"/>
-        <activity
-            android:name=".SplashActivity">
+            android:value="AIzaSyDCXhLa1ZeGmKhjQkxqWRgQU3K6jQUlyQA" />
+
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Login.SignupActivity" />
         <activity android:name=".Login.ResetPasswordActivity" />
         <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity" />
+
         <service
             android:name=".util.AlarmService"
             android:enabled="true" />
-        <receiver android:process=":remote" android:name=".util.Receiver" />
+
+        <receiver
+            android:name=".util.Receiver"
+            android:process=":remote" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
     </application>
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"/>
 </manifest>

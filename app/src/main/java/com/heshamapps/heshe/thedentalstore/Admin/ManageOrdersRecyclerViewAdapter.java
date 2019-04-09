@@ -25,6 +25,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.heshamapps.heshe.thedentalstore.usersession.UserSession.KEY_EMAIL;
+
 public class ManageOrdersRecyclerViewAdapter extends
         RecyclerView.Adapter<ManageOrdersRecyclerViewAdapter.ViewHolder> {
 
@@ -107,7 +109,7 @@ public class ManageOrdersRecyclerViewAdapter extends
         BackgroundMail.newBuilder(context)
                 .withUsername("shreen.ods2019@gmail.com")
                 .withPassword("$S15#07#1997m$")
-                .withMailto(UserSession.KEY_EMAIL)
+                .withMailto(session.getUserDetails().get(KEY_EMAIL))
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("order placed")
                 .withBody("your order id = " + order.getOrderid() +" is " + OrderCase)
