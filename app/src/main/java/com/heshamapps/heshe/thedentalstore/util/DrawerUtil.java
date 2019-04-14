@@ -354,10 +354,11 @@ return photoUrl;
 
 
     private static void signOutUser() {
+        session.logoutUser();
+
         //Sign out
         if(getUserType()==2) {
             mFirebaseAuth.signOut();
-            session.logoutUser();
         }
 
 
