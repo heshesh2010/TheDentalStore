@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 public class ProductModel implements Serializable, Parcelable {
 
-    private String title , image , desc ,userEmail,userMobile,expired_date;
+    private String title , image , desc ,userEmail ,userMobile ,expireDate ;
     private int id ,price  ,no_of_items;
 
-    public ProductModel(int id , String title, int price, String desc , String image, int no_of_items, String userEmail , String userMobile, String expired_date) {
+    public ProductModel(int id , String title, int price, String desc , String image, int no_of_items, String userEmail , String userMobile, String expireDate) {
         this.id=id;
         this.title = title;
         this.price=price;
@@ -22,12 +22,12 @@ public class ProductModel implements Serializable, Parcelable {
         this.no_of_items=no_of_items;
         this.userEmail=userEmail;
         this.userMobile=userMobile;
-        this.expired_date=expired_date;
+        this.expireDate=expireDate;
 
     }
+
     public ProductModel() {
     }
-
 
     public int getId() {
         return id;
@@ -49,70 +49,26 @@ public class ProductModel implements Serializable, Parcelable {
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public int getNo_of_items() {
         return no_of_items;
     }
 
-    public void setNo_of_items(int no_of_items) {
-        this.no_of_items = no_of_items;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserMobile() {
-        return userMobile;
-    }
-
-    public void setUserMobile(String userMobile) {
-        this.userMobile = userMobile;
-    }
-
-   /* public boolean isLike_status() {
-        return like_status;
-    }*/
-
     public String getDesc() {
         return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public String getExpireDate() {
+        return this.expireDate;
     }
-
-
-    public String getExpired_date() {
-        return expired_date;
-    }
-
-    public void setExpired_date(String expired_date) {
-        this.expired_date = expired_date;
-    }
-
-
 
     @Override
     public int describeContents() {
         return 0;
     }
-
 
 
     @Override
@@ -125,7 +81,7 @@ public class ProductModel implements Serializable, Parcelable {
         dest.writeInt(id);
         dest.writeInt(no_of_items);
         dest.writeInt(price);
-        dest.writeString(expired_date);
+        dest.writeString(expireDate);
 
     }
 
@@ -151,7 +107,7 @@ public class ProductModel implements Serializable, Parcelable {
         id = in.readInt();
         no_of_items = in.readInt();
         price = in.readInt();
-        expired_date = in.readString();
+        expireDate = in.readString();
 
     }
 

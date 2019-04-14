@@ -79,6 +79,7 @@
     <string name="new_pass">New Password</string>
     <string name="prompt_password">password</string>
     <string name="hint_new_email">New Email</string>
+    <string name="search_on_titles">search on titles</string>
 
     <string-array name="status">
         <item>In Progress</item>

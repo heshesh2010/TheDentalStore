@@ -76,7 +76,7 @@ public class OrdersDetailsRecyclerViewAdapter extends
         final int itemPos = position;
         final ProductModel productModel = productsOfOrder.get(position);
 
-        productHolder.productExpire.setText(String.valueOf(productModel.getExpired_date()));
+        productHolder.productExpire.setText(String.valueOf(productModel.getExpireDate()));
         productHolder.textTitle.setText(productModel.getTitle());
         Glide.with(context)
                 .load(productModel.getImage())

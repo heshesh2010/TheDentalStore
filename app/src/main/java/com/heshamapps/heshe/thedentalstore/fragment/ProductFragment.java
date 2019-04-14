@@ -118,7 +118,7 @@ public class ProductFragment extends Fragment {
         productTitle.setText(m_ProductModel.getTitle());
         productPrice.setText(String.valueOf(m_ProductModel.getPrice()));
         productDesc.setText(m_ProductModel.getDesc());
-        productExpire .setText( m_ProductModel.getExpired_date().toString());
+        productExpire.setText( m_ProductModel.getExpireDate().toString());
          price = Integer.parseInt(productPrice.getText().toString());
         TempPrice=price;
 
@@ -341,7 +341,7 @@ public class ProductFragment extends Fragment {
     }
     private ProductModel getProductObject() {
 
-        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString()), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpired_date());
+        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString()), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpireDate());
 
     }
 

@@ -1,19 +1,10 @@
 package com.heshamapps.heshe.thedentalstore.fragment;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import android.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +15,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -33,38 +23,20 @@ import butterknife.ButterKnife;
 import android.util.Log;
 
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.material.chip.Chip;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.heshamapps.heshe.thedentalstore.MainActivity;
 import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
-import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 
 import com.heshamapps.heshe.thedentalstore.R;
-import com.heshamapps.heshe.thedentalstore.util.EasyLocationProvider;
 import com.heshamapps.heshe.thedentalstore.view.GridSpacingItemDecoration;
-
-import java.util.ArrayList;
-
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static androidx.core.content.PermissionChecker.checkSelfPermission;
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class MainFragment extends Fragment {
 
@@ -82,9 +54,14 @@ public class MainFragment extends Fragment {
     @BindView(R.id.filter_chip)
     Chip filterChip  ;
 
+    @BindView(R.id.filter_chip1)
+    Chip filterChip1  ;
+
     @BindView(R.id.filter_chip2)
     Chip filterChip2  ;
 
+    @BindView(R.id.editSearch)
+    EditText editSearch;
 
     public MainFragment() {
         // Required empty public constructor
@@ -129,6 +106,7 @@ public class MainFragment extends Fragment {
         };
 
         filterChip.setOnCheckedChangeListener(filterChipListener);
+        filterChip1.setOnCheckedChangeListener(filterChipListener);
         filterChip2.setOnCheckedChangeListener(filterChipListener);
 
        /* Map<String, Object> city = new HashMap<>();
@@ -153,9 +131,17 @@ public class MainFragment extends Fragment {
 
 
 
+        editSearch.setOnKeyListener((v, keyCode, event) -> {
+            // If the event is a key-down event on the "enter" button
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                // Perform action on key press
+                searchInDb(editSearch.getText().toString());
 
-
-
+                return true;
+            }
+            return false;
+        });
 
 
 
@@ -168,18 +154,38 @@ public class MainFragment extends Fragment {
     }
 
 
+    private  void searchInDb(CharSequence text) {
 
+        adapter.stopListening();
+        query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("title",text);
+
+        getProductsList();
+        adapter.startListening();
+
+    }
 
 
 
 
     private  void updaterecycleview(CharSequence text){
+   //     ((EditText) v).setEnabled(false);
+if(text.toString().equalsIgnoreCase("all")) {
+    adapter.stopListening();
+    query = FirebaseFirestore.getInstance().collection("products");
+
+    getProductsList();
+    adapter.startListening();
+
+}
+else{
+
+
         adapter.stopListening();
         query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("type",text);
 
         getProductsList();
         adapter.startListening();
-
+}
 
     }
 
