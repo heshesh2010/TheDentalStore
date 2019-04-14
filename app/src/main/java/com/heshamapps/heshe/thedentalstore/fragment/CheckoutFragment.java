@@ -527,7 +527,19 @@ public class CheckoutFragment extends Fragment {
     }
 
     private void stopLocationUpdates() {
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        if (mFusedLocationClient != null) {
+            try {
+                final Task<Void> voidTask = mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                if (voidTask.isSuccessful()) {
+                    Log.d("TAG","StopLocation updates successful! ");
+                } else {
+                    Log.d("TAG","StopLocation updates unsuccessful! " + voidTask.toString());
+                }
+            }
+            catch (SecurityException exp) {
+                Log.d("TAG", " Security exception while removeLocationUpdates");
+            }
+        }
     }
 
     private void startLocationUpdates() {
@@ -588,7 +600,7 @@ public class CheckoutFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopLocationUpdates();
+       stopLocationUpdates();
     }
 
 
