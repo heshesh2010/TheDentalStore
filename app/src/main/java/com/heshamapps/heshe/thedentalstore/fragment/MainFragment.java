@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 import android.util.Log;
 
@@ -37,6 +38,13 @@ import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
 
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.view.GridSpacingItemDecoration;
+import com.lid.lib.LabelImageView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainFragment extends Fragment {
 
@@ -63,6 +71,7 @@ public class MainFragment extends Fragment {
     @BindView(R.id.editSearch)
     EditText editSearch;
 
+    boolean isExpired = false;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -217,8 +226,33 @@ else{
                         .load(productModel.getImage())
                         .into(productHolder.imageView);
 
-                productHolder.itemView.setOnClickListener(v -> {
 
+
+                String valid_until = productModel.getExpireDate();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date strDate = null;
+                try {
+                    strDate = sdf.parse(valid_until);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (new Date().after(strDate)) {
+                    productHolder.image.setVisibility(View.VISIBLE);
+                    Log.d("tag","ExpireDate older than getCurrentDateTime ");
+                     isExpired = true;
+                }
+
+
+
+
+
+
+
+                productHolder.itemView.setOnClickListener(v -> {
+if(isExpired){
+    Toasty.error(getActivity(),"this product is expired ").show();
+}
+else{
                     DocumentSnapshot snapshot = getSnapshots().getSnapshot(productHolder.getAdapterPosition());
 
                     Bundle bundle = new Bundle();
@@ -230,7 +264,7 @@ else{
 
                     getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductFragment).commit();
 
-
+}
                 });
             };
 
@@ -253,6 +287,9 @@ else{
         ImageView imageView;
         @BindView(R.id.title)
         TextView textTitle;
+
+        @BindView(R.id.image)
+        LabelImageView image;
 
 
         ProductHolder(View itemView) {
