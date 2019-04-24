@@ -126,7 +126,7 @@ public class MyDentalStoreRecyclerViewAdapter extends
                                                                         ProductsOfOrdersFragment m_ProductsOfOrdersFragment = new ProductsOfOrdersFragment();
                                                                         m_ProductsOfOrdersFragment.setArguments(bundle);
 
-                                                                        activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductsOfOrdersFragment).commit();
+                                                                        activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductsOfOrdersFragment).addToBackStack(null).commit();
 
 
 

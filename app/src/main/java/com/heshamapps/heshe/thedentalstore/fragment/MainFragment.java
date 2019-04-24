@@ -100,18 +100,12 @@ public class MainFragment extends Fragment {
         rv.setItemAnimator(new DefaultItemAnimator());
 
 
-        CompoundButton.OnCheckedChangeListener filterChipListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.i("TAG", buttonView.getText() + "");
-                if(buttonView.isChecked()){
-                    updaterecycleview(buttonView.getText());
-                }
-
-                // should return to All tab
-                else{}
-
+        CompoundButton.OnCheckedChangeListener filterChipListener = (buttonView, isChecked) -> {
+            Log.i("TAG", buttonView.getText() + "");
+            if(buttonView.isChecked()){
+                updaterecycleview(buttonView.getText());
             }
+            
         };
 
         filterChip.setOnCheckedChangeListener(filterChipListener);
@@ -262,7 +256,7 @@ else{
                     ProductFragment m_ProductFragment = new ProductFragment();
                     m_ProductFragment.setArguments(bundle);
 
-                    getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductFragment).commit();
+                    getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductFragment).addToBackStack(null).commit();
 
 }
                 });

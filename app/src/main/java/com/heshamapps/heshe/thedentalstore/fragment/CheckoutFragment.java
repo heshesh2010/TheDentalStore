@@ -315,7 +315,7 @@ public class CheckoutFragment extends Fragment {
                             OrderPlacedFragment m_OrderPlacedFragment = new OrderPlacedFragment();
                             m_OrderPlacedFragment.setArguments(bundle);
 
-                            getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_OrderPlacedFragment).commit();
+                            getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_OrderPlacedFragment).addToBackStack(null).commit();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

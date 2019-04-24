@@ -94,7 +94,6 @@ public class DrawerUtil {
                                 }
                             })
                             .build();
-                    mDrawerResult.deselect(mItemLogin.getIdentifier());
 
                     break;
                 case CONFIG.DOCTOR:
@@ -108,7 +107,6 @@ public class DrawerUtil {
                                 return true;
                             })
                             .build();
-                    mDrawerResult.deselect(mItemLogin.getIdentifier());
                     break;
                 default:
                     mDrawerResult = new DrawerBuilder()
@@ -267,12 +265,12 @@ return photoUrl;
 
             //store
             case 3:
-                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).addToBackStack(null).commit();
                 break;
 
             //cart
             case 4:
-                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).addToBackStack(null).commit();
                 break;
 
             //Sign In
@@ -289,14 +287,14 @@ return photoUrl;
 
             // Doctor Orders
             case 7:
-                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ViewOrdersFragment()).addToBackStack(null).commit();
                 Toast.makeText(activity, "Doctor Orders menu selected", Toast.LENGTH_LONG).show();
 
                 break;
 
             //Admin Order
             case 8:
-                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ManageOrdersFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new ManageOrdersFragment()).addToBackStack(null).commit();
                 Toast.makeText(activity, "Admin Manage Orders menu selected", Toast.LENGTH_LONG).show();
                 break;
 
@@ -307,7 +305,7 @@ return photoUrl;
                 break;
             // dental Store
             case 10:
-                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MyDentalStoreFragment()).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MyDentalStoreFragment()).addToBackStack(null).commit();
                 Toast.makeText(activity, "My dental menu selected", Toast.LENGTH_LONG).show();
                 break;
             // dental Store

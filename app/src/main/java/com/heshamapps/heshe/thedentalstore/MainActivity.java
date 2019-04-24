@@ -1,7 +1,9 @@
 package com.heshamapps.heshe.thedentalstore;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,10 +36,21 @@ public class MainActivity extends AppCompatActivity {
         new DrawerUtil(this,mToolbar,FirebaseAuth.getInstance());
 
 
-        getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new MainFragment()).addToBackStack(null).commit();
 
 
     }
 
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
 
 }

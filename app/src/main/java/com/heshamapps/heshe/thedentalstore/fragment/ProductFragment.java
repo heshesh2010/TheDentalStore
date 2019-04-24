@@ -241,34 +241,40 @@ public class ProductFragment extends Fragment {
 
     @OnClick(R.id.addToCart_btn)
     public void addToCart(View view) {
-      //  session.checkLogin();
-        if(session.isLoggedIn()){
 
-            mDatabaseReference.collection("Cart").document(session.getUserDetails().get(UserSession.KEY_UID))
-                    .set(getProductObject())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toasty.success(getActivity(), "added to Cart", Toast.LENGTH_SHORT).show();
-                            session.increaseCartValue();
+        if (Integer.parseInt(quantityProductPage.getText().toString())>0){
+            if (session.isLoggedIn()) {
 
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toasty.error(getActivity(), "Not added to Cart" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                mDatabaseReference.collection("Cart").document(session.getUserDetails().get(UserSession.KEY_UID))
+                        .set(getProductObject())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toasty.success(getActivity(), "added to Cart", Toast.LENGTH_SHORT).show();
+                                session.increaseCartValue();
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toasty.error(getActivity(), "Not added to Cart" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+
+                Toasty.error(getActivity(), "you must login first", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                getActivity().startActivity(i);
+
+            }
+
         }
-        else{
 
-            Toasty.error(getActivity(), "you must login first" , Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getActivity(), LoginActivity.class);
-            getActivity().startActivity(i);
+       else {
+            Toasty.error(getActivity(), "you must choose quantity ", Toast.LENGTH_SHORT).show();
 
         }
-
 
 
     }
@@ -277,7 +283,7 @@ public class ProductFragment extends Fragment {
     @OnClick(R.id.fab)
     public void goToCart(View view) {
 
-        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).addToBackStack(null).commit();
         //finish();
 
     }

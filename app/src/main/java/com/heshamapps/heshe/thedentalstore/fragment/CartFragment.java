@@ -176,7 +176,7 @@ public class CartFragment extends Fragment {
                         DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
                         snapshot.getReference().delete();
                         session.decreaseCartValue();
-                        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).commit();
+                        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new CartFragment()).addToBackStack(null).commit();
 
                     }
                 });
@@ -213,7 +213,7 @@ public class CartFragment extends Fragment {
             CheckoutFragment m_CheckoutFragment = new CheckoutFragment();
             m_CheckoutFragment.setArguments(bundle);
 
-            getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_CheckoutFragment).commit();
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_CheckoutFragment).addToBackStack(null).commit();
 
 
         }
