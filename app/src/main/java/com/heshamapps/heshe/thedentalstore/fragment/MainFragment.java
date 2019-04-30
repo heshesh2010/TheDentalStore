@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
@@ -28,12 +29,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.chip.Chip;
 
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
 
 import com.heshamapps.heshe.thedentalstore.R;
@@ -60,29 +65,29 @@ public class MainFragment extends Fragment {
     RecyclerView rv;
 
     @BindView(R.id.filter_chip)
-    Chip filterChip  ;
+    Chip filterChip;
 
     @BindView(R.id.filter_chip1)
-    Chip filterChip1  ;
+    Chip filterChip1;
 
     @BindView(R.id.filter_chip2)
-    Chip filterChip2  ;
+    Chip filterChip2;
 
     @BindView(R.id.editSearch)
     EditText editSearch;
 
     boolean isExpired = false;
+
     public MainFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-        query =db.collection("products");
+        query = db.collection("products");
 
 
     }
@@ -96,16 +101,15 @@ public class MainFragment extends Fragment {
 
         // Inflate the layout for this fragment
         rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        rv.addItemDecoration(new GridSpacingItemDecoration(2,1, true));
+        rv.addItemDecoration(new GridSpacingItemDecoration(2, 1, true));
         rv.setItemAnimator(new DefaultItemAnimator());
-
 
         CompoundButton.OnCheckedChangeListener filterChipListener = (buttonView, isChecked) -> {
             Log.i("TAG", buttonView.getText() + "");
-            if(buttonView.isChecked()){
+            if (buttonView.isChecked()) {
                 updaterecycleview(buttonView.getText());
             }
-            
+
         };
 
         filterChip.setOnCheckedChangeListener(filterChipListener);
@@ -131,9 +135,6 @@ public class MainFragment extends Fragment {
                 });*/
 
 
-
-
-
         editSearch.setOnKeyListener((v, keyCode, event) -> {
             // If the event is a key-down event on the "enter" button
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -147,20 +148,14 @@ public class MainFragment extends Fragment {
         });
 
 
-
-
-
-
-
-
         return view;
     }
 
 
-    private  void searchInDb(CharSequence text) {
+    private void searchInDb(CharSequence text) {
 
         adapter.stopListening();
-        query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("title",text);
+        query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("title", text);
 
         getProductsList();
         adapter.startListening();
@@ -168,33 +163,29 @@ public class MainFragment extends Fragment {
     }
 
 
+    private void updaterecycleview(CharSequence text) {
+        //     ((EditText) v).setEnabled(false);
+        if (text.toString().equalsIgnoreCase("all")) {
+            adapter.stopListening();
+            query = FirebaseFirestore.getInstance().collection("products");
+
+            getProductsList();
+            adapter.startListening();
+
+        } else {
 
 
-    private  void updaterecycleview(CharSequence text){
-   //     ((EditText) v).setEnabled(false);
-if(text.toString().equalsIgnoreCase("all")) {
-    adapter.stopListening();
-    query = FirebaseFirestore.getInstance().collection("products");
+            adapter.stopListening();
+            query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("type", text);
 
-    getProductsList();
-    adapter.startListening();
-
-}
-else{
-
-
-        adapter.stopListening();
-        query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("type",text);
-
-        getProductsList();
-        adapter.startListening();
-}
+            getProductsList();
+            adapter.startListening();
+        }
 
     }
 
 
-    private  void getProductsList()
-    {
+    private void getProductsList() {
 
         FirestoreRecyclerOptions<ProductModel> options = new FirestoreRecyclerOptions.Builder<ProductModel>()
                 .setQuery(query, ProductModel.class)
@@ -213,59 +204,51 @@ else{
             @Override
             protected void onBindViewHolder(@NonNull ProductHolder productHolder, int position, @NonNull ProductModel productModel) {
 
+                productHolder.setIsRecyclable(false);
 
-                productHolder.textPrice.setText(String.valueOf(productModel.getPrice()));
+                productHolder.textPrice.setText(String.valueOf(productModel.getPrice()) + "SAR");
                 productHolder.textTitle.setText(productModel.getTitle());
                 Glide.with(getActivity())
                         .load(productModel.getImage())
                         .into(productHolder.imageView);
 
 
+                if (productModel.getExpireStatus()) {
+                    productHolder.expireLableImage.setVisibility(View.VISIBLE);
 
-                String valid_until = productModel.getExpireDate();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                Date strDate = null;
-                try {
-                    strDate = sdf.parse(valid_until);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (new Date().after(strDate)) {
-                    productHolder.image.setVisibility(View.VISIBLE);
-                    Log.d("tag","ExpireDate older than getCurrentDateTime ");
-                     isExpired = true;
+                } else {
+                    productHolder.expireLableImage.setVisibility(View.INVISIBLE);
+
                 }
 
+                             if(productModel.getCurrentStock()<(productModel.getInitStock()/2))    {
+                                                                productHolder.stockLableImage.setVisibility(View.VISIBLE);
 
-
-
-
-
+                             }
 
                 productHolder.itemView.setOnClickListener(v -> {
-if(isExpired){
-    Toasty.error(getActivity(),"this product is expired ").show();
-}
-else{
-                    DocumentSnapshot snapshot = getSnapshots().getSnapshot(productHolder.getAdapterPosition());
+                    if (productModel.getExpireStatus()) {
+                        Toasty.error(getActivity(), "this product is expired ").show();
+                    } else {
+                        DocumentSnapshot snapshot = getSnapshots().getSnapshot(productHolder.getAdapterPosition());
 
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("product", productModel);
-                    bundle.putString("docID", snapshot.getId());
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("product", productModel);
+                        bundle.putString("docID", snapshot.getId());
 
-                    ProductFragment m_ProductFragment = new ProductFragment();
-                    m_ProductFragment.setArguments(bundle);
+                        ProductFragment m_ProductFragment = new ProductFragment();
+                        m_ProductFragment.setArguments(bundle);
 
-                    getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  m_ProductFragment).addToBackStack(null).commit();
+                        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_frame, m_ProductFragment).addToBackStack(null).commit();
 
-}
+                    }
                 });
-            };
+            }
 
+            ;
 
 
         };
-
 
 
         rv.setAdapter(adapter);
@@ -282,8 +265,11 @@ else{
         @BindView(R.id.title)
         TextView textTitle;
 
-        @BindView(R.id.image)
-        LabelImageView image;
+        @BindView(R.id.expireLableImage)
+        LabelImageView expireLableImage;
+
+            @BindView(R.id.stockLableImage)
+            LabelImageView stockLableImage;
 
 
         ProductHolder(View itemView) {

@@ -4,16 +4,23 @@ package com.heshamapps.heshe.thedentalstore.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import android.view.View;
+
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class ProductModel implements Serializable, Parcelable {
 
-    private String title , image , desc ,userEmail ,userMobile ,expireDate ;
-    private int id ,price  ,no_of_items;
-
-    public ProductModel(int id , String title, int price, String desc , String image, int no_of_items, String userEmail , String userMobile, String expireDate) {
+    private String title , image , desc ,userEmail ,userMobile ,expireDate ,id;
+    private int price  ,no_of_items ,currentStock , initStock;
+private boolean isExpired;
+    public ProductModel(String id , String title, int price, String desc , String image, int no_of_items, String userEmail , String userMobile, String expireDate, int currentStock , int initStock) {
         this.id=id;
         this.title = title;
         this.price=price;
@@ -23,17 +30,59 @@ public class ProductModel implements Serializable, Parcelable {
         this.userEmail=userEmail;
         this.userMobile=userMobile;
         this.expireDate=expireDate;
+        this.currentStock=currentStock;
+        this.initStock=initStock;
 
+    }
+
+    public int getCurrentStock() {
+        return currentStock;
+    }
+
+    public void setCurrentStock(int currentStock) {
+        this.currentStock = currentStock;
+    }
+
+    public int getInitStock() {
+        return initStock;
+    }
+
+    public void setInitStock(int initStock) {
+        this.initStock = initStock;
     }
 
     public ProductModel() {
+
+
+
     }
 
-    public int getId() {
+    public boolean getExpireStatus(){
+        String valid_until = getExpireDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date strDate = null;
+        try {
+            strDate = sdf.parse(valid_until);
+        } catch (SafeParcelReader.ParseException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (new Date().after(strDate)) {
+
+            isExpired = true;
+        }
+        else{
+            isExpired = false;
+
+        }
+        return isExpired;
+    }
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,10 +127,12 @@ public class ProductModel implements Serializable, Parcelable {
         dest.writeString(desc);
         dest.writeString(userEmail);
         dest.writeString(userMobile);
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeInt(no_of_items);
         dest.writeInt(price);
         dest.writeString(expireDate);
+        dest.writeInt(currentStock);
+        dest.writeInt(initStock);
 
     }
 
@@ -104,11 +155,21 @@ public class ProductModel implements Serializable, Parcelable {
         desc = in.readString();
         userEmail = in.readString();
         userMobile = in.readString();
-        id = in.readInt();
+        id = in.readString();
         no_of_items = in.readInt();
         price = in.readInt();
         expireDate = in.readString();
+        currentStock = in.readInt();
+        initStock = in.readInt();
 
     }
+
+
+
+
+
+
+
+
 
 }

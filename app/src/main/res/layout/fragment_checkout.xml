@@ -3,13 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/odsbackgroundscreen"
     tools:context=".fragment.CheckoutFragment">
 
 
     <include
         layout="@layout/content_checkout"
-        android:layout_alignParentBottom="true"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 

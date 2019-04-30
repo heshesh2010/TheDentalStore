@@ -86,6 +86,9 @@ public class ProductFragment extends Fragment {
     @BindView(R.id.productExpire)
     TextView productExpire;
 
+    @BindView(R.id.stock)
+    TextView stock;
+
     @BindView(R.id.quantityProductPage)
     EditText quantityProductPage;
 
@@ -116,10 +119,11 @@ public class ProductFragment extends Fragment {
         Picasso.with(getActivity()).load(m_ProductModel.getImage()).into(productImage);
         session = new UserSession(getActivity());
         productTitle.setText(m_ProductModel.getTitle());
-        productPrice.setText(String.valueOf(m_ProductModel.getPrice()));
+        productPrice.setText(m_ProductModel.getPrice() +"SAR");
         productDesc.setText(m_ProductModel.getDesc());
-        productExpire.setText( m_ProductModel.getExpireDate().toString());
-         price = Integer.parseInt(productPrice.getText().toString());
+        productExpire.setText(m_ProductModel.getExpireDate());
+        stock.setText(String.valueOf(m_ProductModel.getCurrentStock()));
+         price = Integer.parseInt(productPrice.getText().toString().replace("SAR",""));
         TempPrice=price;
 
         quantityProductPage.setText("1");
@@ -242,40 +246,45 @@ public class ProductFragment extends Fragment {
     @OnClick(R.id.addToCart_btn)
     public void addToCart(View view) {
 
-        if (Integer.parseInt(quantityProductPage.getText().toString())>0){
-            if (session.isLoggedIn()) {
+        if (Integer.parseInt(quantityProductPage.getText().toString())>0) {
 
-                mDatabaseReference.collection("Cart").document(session.getUserDetails().get(UserSession.KEY_UID))
-                        .set(getProductObject())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toasty.success(getActivity(), "added to Cart", Toast.LENGTH_SHORT).show();
-                                session.increaseCartValue();
+            if (Integer.parseInt(quantityProductPage.getText().toString()) < Integer.valueOf(stock.getText().toString())) {
+                if (session.isLoggedIn()) {
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toasty.error(getActivity(), "Not added to Cart" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    mDatabaseReference.collection("Cart").document(session.getUserDetails().get(UserSession.KEY_UID))
+                            .set(getProductObject())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toasty.success(getActivity(), "added to Cart", Toast.LENGTH_SHORT).show();
+                                    session.increaseCartValue();
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toasty.error(getActivity(), "Not added to Cart" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+
+                    Toasty.error(getActivity(), "you must login first", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getActivity(), LoginActivity.class);
+                    getActivity().startActivity(i);
+
+                }
+
             } else {
-
-                Toasty.error(getActivity(), "you must login first", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                getActivity().startActivity(i);
+                Toasty.error(getActivity(), "you must choose quantity ", Toast.LENGTH_SHORT).show();
 
             }
+        }
+        else{
+
+            Toasty.error(getActivity(), "you must choose quantity less than current stock", Toast.LENGTH_SHORT).show();
 
         }
-
-       else {
-            Toasty.error(getActivity(), "you must choose quantity ", Toast.LENGTH_SHORT).show();
-
-        }
-
 
     }
 
@@ -347,7 +356,7 @@ public class ProductFragment extends Fragment {
     }
     private ProductModel getProductObject() {
 
-        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString()), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpireDate());
+        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString().replace("SAR","")), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpireDate(),m_ProductModel.getCurrentStock(),m_ProductModel.getInitStock());
 
     }
 
@@ -428,7 +437,7 @@ public class ProductFragment extends Fragment {
             quantityProductPage.setText(String.valueOf(quantity));
             TempPrice=TempPrice-price;
 
-            productPrice.setText(""+TempPrice);
+            productPrice.setText(TempPrice+"SAR");
         }
     }
 
@@ -438,7 +447,7 @@ public class ProductFragment extends Fragment {
             quantity++;
             quantityProductPage.setText(String.valueOf(quantity));
             TempPrice=TempPrice+price;
-            productPrice.setText(""+TempPrice);
+            productPrice.setText(TempPrice+"SAR");
 
         } else {
             Toasty.error(getActivity(), "Product Count Must be less than 500", Toast.LENGTH_LONG).show();

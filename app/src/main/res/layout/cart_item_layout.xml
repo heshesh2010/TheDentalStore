@@ -55,7 +55,7 @@
                 android:id="@+id/cart_prprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rs. 8,999"
+                android:text="SAR. 8,999"
                 android:textSize="@dimen/text_size_xmedium"
                 android:textColor="#4CAF50"
                 android:layout_marginTop="@dimen/margin_small"/>

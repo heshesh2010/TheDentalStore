@@ -35,7 +35,7 @@ public class MyDentalStoreRecyclerViewAdapter extends
     private Activity activity;
     private FirebaseFirestore firestoreDB;
 
-    public MyDentalStoreRecyclerViewAdapter(List<PlacedOrderModel> list, Activity activity, FirebaseFirestore firestore) {
+    MyDentalStoreRecyclerViewAdapter(List<PlacedOrderModel> list, Activity activity, FirebaseFirestore firestore) {
         this.ordersList = list;
         this.activity = activity;
         this.firestoreDB = firestore;
@@ -46,22 +46,22 @@ public class MyDentalStoreRecyclerViewAdapter extends
         return ordersList.size();
     }
 
+    @NonNull
     @Override
     public MyDentalStoreRecyclerViewAdapter.ViewHolder
-    onCreateViewHolder(ViewGroup parent, int viewType) {
+    onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.my_dental_store_item, parent, false);
 
-        MyDentalStoreRecyclerViewAdapter.ViewHolder viewHolder =
-                new MyDentalStoreRecyclerViewAdapter.ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyDentalStoreRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyDentalStoreRecyclerViewAdapter.ViewHolder holder, int position) {
         final int itemPos = position;
         final PlacedOrderModel order = ordersList.get(position);
+        holder.setIsRecyclable(false);
 
         holder.orderId.setText(order.getOrderid());
         holder.payment.setText(order.getPayment_mode());

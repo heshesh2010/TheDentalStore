@@ -32,18 +32,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.heshamapps.heshe.thedentalstore.usersession.UserSession.KEY_EMAIL;
+
 
 public class ViewOrdersFragment extends Fragment {
 
 
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore db;
-    private UserSession session;
     private static final String TAG = "ViewOrdersFragment";
 
     @BindView(R.id.ordersRecyclerView)
      RecyclerView ordersRecyclerView;
 
+    UserSession session;
     public ViewOrdersFragment() {
         // Required empty public constructor
     }
@@ -54,7 +56,7 @@ public class ViewOrdersFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        session = new UserSession(getActivity());
+        session   = new UserSession(getActivity());
 
     }
 
@@ -92,7 +94,7 @@ public class ViewOrdersFragment extends Fragment {
     private void getDocumentsFromCollection() {
 
 
-        db.collection("orders").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("orders").whereEqualTo("placed_user_email", session.getUserDetails().get(KEY_EMAIL)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

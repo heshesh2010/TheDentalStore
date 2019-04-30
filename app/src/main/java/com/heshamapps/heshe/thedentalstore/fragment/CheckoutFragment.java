@@ -79,7 +79,7 @@ public class CheckoutFragment extends Fragment {
     MaterialEditText orderpincode;
 
 
-    private ArrayList<ProductModel> cartcollect= new ArrayList<>();
+    ProductModel cartcollect;
     private String payment_mode="COD",order_reference_id;
     private String placed_user_name,getPlaced_user_email,getPlaced_user_mobile_no,getPlaced_user_id;
     private UserSession session;
@@ -126,12 +126,12 @@ public class CheckoutFragment extends Fragment {
         getActivity().setTitle("check out");
 
         //setting total price
-        totalAmount.setText(getArguments().getString("totalprice").toString());
+        totalAmount.setText(getArguments().getString("totalprice").toString()+"SAR");
 
         //setting number of products
         noOfItems.setText(getArguments().getString("totalproducts").toString());
 
-        cartcollect = getArguments().getParcelableArrayList("cartproducts");
+        cartcollect = getArguments().getParcelable("cartproducts");
 
 
 
@@ -229,7 +229,7 @@ public class CheckoutFragment extends Fragment {
         //delivery date
         SimpleDateFormat formattedDate = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 7);  // number of days to add
+        c.add(Calendar.DATE, 5);  // number of days to add
         String tomorrow = (formattedDate.format(c.getTime()));
         deliveryDate.setText(tomorrow);
 
@@ -241,7 +241,7 @@ public class CheckoutFragment extends Fragment {
                 switch(button.getText().toString()) {
                     case "visa/master":
                         ViewDialog alert = new ViewDialog();
-                        alert.showDialog(getActivity(), String.valueOf(totalAmount.getText().toString()));
+                        alert.showDialog(getActivity(), String.valueOf(totalAmount.getText().toString()).replace("SAR",""));
 
 
                     // and then do whatever you want with that
@@ -289,9 +289,7 @@ public class CheckoutFragment extends Fragment {
                     });
 
 
-            //adding products to the order
-            for(ProductModel model:cartcollect){
-                mDatabaseReference.collection("orders").document(order_reference_id).collection("items").document().set(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                mDatabaseReference.collection("orders").document(order_reference_id).collection("items").document().set(cartcollect).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toasty.success(getActivity(), "items added to orders", Toast.LENGTH_SHORT).show();
@@ -303,7 +301,7 @@ public class CheckoutFragment extends Fragment {
                                 Toasty.error(getActivity(), "items Not added to orders" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
-            }
+
 
             mDatabaseReference.collection("Cart").document(getPlaced_user_id).delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -311,7 +309,7 @@ public class CheckoutFragment extends Fragment {
                         public void onSuccess(Void aVoid) {
                             Bundle bundle = new Bundle();
                             bundle.putString("orderid",  order_reference_id);
-
+                            bundle.putParcelable("cartproducts",cartcollect);
                             OrderPlacedFragment m_OrderPlacedFragment = new OrderPlacedFragment();
                             m_OrderPlacedFragment.setArguments(bundle);
 
@@ -361,7 +359,7 @@ public class CheckoutFragment extends Fragment {
     }
 
     public PlacedOrderModel getProductObject() {
-        return new PlacedOrderModel(order_reference_id,noOfItems.getText().toString(),totalAmount.getText().toString(),deliveryDate.getText().toString(),payment_mode,ordername.getText().toString(),orderemail.getText().toString(),ordernumber.getText().toString(),orderaddress.getText().toString(),orderpincode.getText().toString(),placed_user_name,getPlaced_user_email,getPlaced_user_mobile_no,getPlaced_user_id,"In progress");
+        return new PlacedOrderModel(order_reference_id,noOfItems.getText().toString(),totalAmount.getText().toString().replace("SAR",""),deliveryDate.getText().toString(),payment_mode,ordername.getText().toString(),orderemail.getText().toString(),ordernumber.getText().toString(),orderaddress.getText().toString(),orderpincode.getText().toString(),placed_user_name,getPlaced_user_email,getPlaced_user_mobile_no,getPlaced_user_id,"In progress");
     }
 
     public String getordernumber() {

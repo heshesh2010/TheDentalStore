@@ -45,13 +45,11 @@ public class OrdersDetailsRecyclerViewAdapter extends
 
     private List<ProductModel> productsOfOrder;
     private Context context;
-    private FirebaseFirestore firestoreDB;
-    final Calendar currentDate = Calendar.getInstance();
+    private final Calendar currentDate = Calendar.getInstance();
 
-    public OrdersDetailsRecyclerViewAdapter(List<ProductModel> productsOfOrder, Context ctx, FirebaseFirestore firestore) {
+    OrdersDetailsRecyclerViewAdapter(List<ProductModel> productsOfOrder, Context ctx) {
         this.productsOfOrder = productsOfOrder;
         this.context = ctx;
-        this.firestoreDB = firestore;
     }
 
     @Override
@@ -59,22 +57,21 @@ public class OrdersDetailsRecyclerViewAdapter extends
         return  this.productsOfOrder.size();
     }
 
+    @NonNull
     @Override
     public OrdersDetailsRecyclerViewAdapter.ViewHolder
-    onCreateViewHolder(ViewGroup parent, int viewType) {
+    onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout. products_of_order_item, parent, false);
 
-        OrdersDetailsRecyclerViewAdapter.ViewHolder viewHolder =
-                new OrdersDetailsRecyclerViewAdapter.ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(OrdersDetailsRecyclerViewAdapter.ViewHolder productHolder, int position) {
-        final int itemPos = position;
-        final ProductModel productModel = productsOfOrder.get(position);
+         ProductModel productModel = productsOfOrder.get(position);
+        productHolder.setIsRecyclable(false);
 
         productHolder.productExpire.setText(String.valueOf(productModel.getExpireDate()));
         productHolder.textTitle.setText(productModel.getTitle());

@@ -61,7 +61,8 @@ public class CartFragment extends Fragment {
     LottieAnimationView emptyCart;
 
 
-    private ArrayList<ProductModel> cartCollect = new ArrayList<>();
+    private ProductModel cartCollect ;
+
     private float totalcost=0;
     private int totalproducts=0;
 
@@ -160,14 +161,14 @@ public class CartFragment extends Fragment {
                 if(tv_no_item.getVisibility()== View.VISIBLE){
                     tv_no_item.setVisibility(View.GONE);
                 }
+                cartCollect= model;
                 viewHolder.cardName.setText(model.getTitle());
-                viewHolder.cardPrice.setText("$ "+ model.getPrice());
+                viewHolder.cardPrice.setText(model.getPrice()+"SAR");
                 viewHolder.cardCount.setText("Quantity : "+ model.getNo_of_items());
                 Picasso.with(getActivity()).load(model.getImage()).into(viewHolder.cardImage);
 
                 totalcost += model.getPrice();
                 totalproducts += model.getNo_of_items();
-                cartCollect.add(model);
 
                 viewHolder.cardDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -208,7 +209,7 @@ public class CartFragment extends Fragment {
             bundle.putString("totalprice",  Float.toString(totalcost));
             bundle.putString("totalproducts",  Integer.toString(totalproducts));
 
-            bundle.putParcelableArrayList("cartproducts", cartCollect);
+            bundle.putParcelable("cartproducts", cartCollect);
 
             CheckoutFragment m_CheckoutFragment = new CheckoutFragment();
             m_CheckoutFragment.setArguments(bundle);

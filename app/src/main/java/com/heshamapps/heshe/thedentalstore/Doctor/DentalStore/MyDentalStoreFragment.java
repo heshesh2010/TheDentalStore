@@ -32,6 +32,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.heshamapps.heshe.thedentalstore.usersession.UserSession.KEY_EMAIL;
+
 
 public class MyDentalStoreFragment extends Fragment {
 
@@ -92,7 +94,7 @@ public class MyDentalStoreFragment extends Fragment {
     private void getDocumentsFromCollection() {
 
 
-        db.collection("orders").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("orders").whereEqualTo("placed_user_email", session.getUserDetails().get(KEY_EMAIL)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

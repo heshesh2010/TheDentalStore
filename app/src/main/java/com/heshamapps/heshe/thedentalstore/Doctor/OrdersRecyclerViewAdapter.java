@@ -28,7 +28,7 @@ public class OrdersRecyclerViewAdapter extends
     private Context context;
     private FirebaseFirestore firestoreDB;
 
-    public OrdersRecyclerViewAdapter(List<PlacedOrderModel> list, Context ctx, FirebaseFirestore firestore) {
+    OrdersRecyclerViewAdapter(List<PlacedOrderModel> list, Context ctx, FirebaseFirestore firestore) {
         ordersList = list;
         context = ctx;
         firestoreDB = firestore;
@@ -39,23 +39,21 @@ public class OrdersRecyclerViewAdapter extends
         return ordersList.size();
     }
 
+    @NonNull
     @Override
     public OrdersRecyclerViewAdapter.ViewHolder
-    onCreateViewHolder(ViewGroup parent, int viewType) {
+    onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_order_item, parent, false);
 
-        OrdersRecyclerViewAdapter.ViewHolder viewHolder =
-                new OrdersRecyclerViewAdapter.ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(OrdersRecyclerViewAdapter.ViewHolder holder, int position) {
-        final int itemPos = position;
-        final PlacedOrderModel order = ordersList.get(position);
-
+    public void onBindViewHolder(@NonNull OrdersRecyclerViewAdapter.ViewHolder holder, int position) {
+        PlacedOrderModel order = ordersList.get(position);
+        holder.setIsRecyclable(false);
         holder.orderId.setText(order.getOrderid());
         holder.payment.setText(order.getPayment_mode());
 
@@ -64,11 +62,11 @@ public class OrdersRecyclerViewAdapter extends
         holder.delivery_date.setText(order.getDelivery_date());
         holder.status.setText(order.getStatus());
 
-        holder.cancel_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelOrder(order.getOrderid(), itemPos);            }
-        });
+        if(order.getStatus().equals("Cancelled")){
+            holder.cancel_order.setVisibility(View.INVISIBLE);
+        }
+        holder.cancel_order.setOnClickListener(view -> {
+            cancelOrder(order.getOrderid(), position,holder);            });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -102,16 +100,14 @@ public class OrdersRecyclerViewAdapter extends
         }
     }
 
-    private void cancelOrder(String docId, final int position) {
+    private void cancelOrder(String docId, final int position, ViewHolder holder) {
         firestoreDB.collection("orders").document(docId).update("status", "Cancelled")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                     notifyDataSetChanged();
-                        Toast.makeText(context,
-                                "order document has been cancelled",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnCompleteListener(task -> {
+                    Toast.makeText(context,
+                            "order document has been cancelled",
+                            Toast.LENGTH_SHORT).show();
+                 //   holder.status.setText("Cancelled");
+                    holder.cancel_order.setVisibility(View.INVISIBLE);
+                    notifyItemChanged(position);                    });
     }
 }

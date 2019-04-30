@@ -141,6 +141,7 @@
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/expireTV"
         android:layout_width="wrap_content"
@@ -160,6 +161,29 @@
 
 </RelativeLayout>
 
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/stockTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stock"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+
+                <TextView
+                    android:id="@+id/stock"
+                    android:layout_toEndOf="@+id/stockTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+
+
+            </RelativeLayout>
 
         </LinearLayout>
 

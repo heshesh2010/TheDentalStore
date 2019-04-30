@@ -70,7 +70,7 @@ public class ProductsOfOrdersFragment extends Fragment {
 
         OrdersDetailsRecyclerViewAdapter recyclerViewAdapter = new
                 OrdersDetailsRecyclerViewAdapter(productsOfOrder,
-                getActivity(), db);
+                getActivity());
         RecyclerView.setAdapter(recyclerViewAdapter);
 
         return view;
