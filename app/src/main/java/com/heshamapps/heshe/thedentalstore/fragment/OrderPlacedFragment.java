@@ -101,7 +101,7 @@ public class OrderPlacedFragment extends Fragment {
                 .withMailto(session.getUserDetails().get(KEY_EMAIL))
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("order placed")
-                .withBody("your order id = " + orderid +"is under preparation and it will deliver Within Three days")
+                .withBody("your order id = " + orderid +" is under preparation and it will deliver Within 5 days")
                 .withOnSuccessCallback(() -> {
                     //do some magic
                 })

@@ -82,7 +82,7 @@ public class SignupActivity extends Activity {
         inputPassword.addTextChangedListener(passWatcher);
         inputCnfpass.addTextChangedListener(cnfpassWatcher);
         inputPhone.addTextChangedListener(numberWatcher);
-
+        inputAddress.addTextChangedListener(addressWatcher);
     }
 
 
@@ -103,7 +103,7 @@ public class SignupActivity extends Activity {
 
 
 
-        if ( validateName() && validateEmail() && validatePass() && validateCnfPass() && validateNumber()) {
+        if ( validateName() && validateEmail() && validatePass() && validateCnfPass() && validateNumber() && validateAddress()) {
 
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
@@ -216,6 +216,14 @@ public class SignupActivity extends Activity {
 
     }
 
+    private boolean validateAddress() {
+
+        check = inputAddress.getText().toString();
+
+        return !(check.length() < 4 || check.length() > 20);
+
+    }
+
     private boolean validateNumber() {
 
         check = inputPhone.getText().toString();
@@ -248,6 +256,31 @@ public class SignupActivity extends Activity {
 
             if (check.length() < 4 || check.length() > 20) {
                 inputName.setError("Name Must consist of 4 to 20 characters");
+            }
+        }
+
+    };
+
+    //TextWatcher for Name -----------------------------------------------------
+
+    TextWatcher addressWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //none
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //none
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            check = s.toString();
+
+            if (check.length() < 4 || check.length() > 20) {
+                inputAddress.setError("Address Must consist of 4 to 20 characters");
             }
         }
 

@@ -163,7 +163,7 @@ public class CartFragment extends Fragment {
                 }
                 cartCollect= model;
                 viewHolder.cardName.setText(model.getTitle());
-                viewHolder.cardPrice.setText(model.getPrice()+"SAR");
+                viewHolder.cardPrice.setText(model.getPrice()+" SAR");
                 viewHolder.cardCount.setText("Quantity : "+ model.getNo_of_items());
                 Picasso.with(getActivity()).load(model.getImage()).into(viewHolder.cardImage);
 

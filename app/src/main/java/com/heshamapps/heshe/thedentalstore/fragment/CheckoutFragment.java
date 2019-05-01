@@ -126,7 +126,7 @@ public class CheckoutFragment extends Fragment {
         getActivity().setTitle("check out");
 
         //setting total price
-        totalAmount.setText(getArguments().getString("totalprice").toString()+"SAR");
+        totalAmount.setText(getArguments().getString("totalprice").toString()+" SAR");
 
         //setting number of products
         noOfItems.setText(getArguments().getString("totalproducts").toString());
@@ -241,7 +241,7 @@ public class CheckoutFragment extends Fragment {
                 switch(button.getText().toString()) {
                     case "visa/master":
                         ViewDialog alert = new ViewDialog();
-                        alert.showDialog(getActivity(), String.valueOf(totalAmount.getText().toString()).replace("SAR",""));
+                        alert.showDialog(getActivity(), String.valueOf(totalAmount.getText().toString()).replace(" SAR",""));
 
 
                     // and then do whatever you want with that
@@ -359,7 +359,7 @@ public class CheckoutFragment extends Fragment {
     }
 
     public PlacedOrderModel getProductObject() {
-        return new PlacedOrderModel(order_reference_id,noOfItems.getText().toString(),totalAmount.getText().toString().replace("SAR",""),deliveryDate.getText().toString(),payment_mode,ordername.getText().toString(),orderemail.getText().toString(),ordernumber.getText().toString(),orderaddress.getText().toString(),orderpincode.getText().toString(),placed_user_name,getPlaced_user_email,getPlaced_user_mobile_no,getPlaced_user_id,"In progress");
+        return new PlacedOrderModel(order_reference_id,noOfItems.getText().toString(),totalAmount.getText().toString().replace(" SAR",""),deliveryDate.getText().toString(),payment_mode,ordername.getText().toString(),orderemail.getText().toString(),ordernumber.getText().toString(),orderaddress.getText().toString(),orderpincode.getText().toString(),placed_user_name,getPlaced_user_email,getPlaced_user_mobile_no,getPlaced_user_id,"In progress");
     }
 
     public String getordernumber() {

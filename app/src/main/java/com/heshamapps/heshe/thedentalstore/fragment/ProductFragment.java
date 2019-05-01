@@ -119,11 +119,11 @@ public class ProductFragment extends Fragment {
         Picasso.with(getActivity()).load(m_ProductModel.getImage()).into(productImage);
         session = new UserSession(getActivity());
         productTitle.setText(m_ProductModel.getTitle());
-        productPrice.setText(m_ProductModel.getPrice() +"SAR");
+        productPrice.setText(m_ProductModel.getPrice() +" SAR");
         productDesc.setText(m_ProductModel.getDesc());
         productExpire.setText(m_ProductModel.getExpireDate());
         stock.setText(String.valueOf(m_ProductModel.getCurrentStock()));
-         price = Integer.parseInt(productPrice.getText().toString().replace("SAR",""));
+         price = Integer.parseInt(productPrice.getText().toString().replace(" SAR",""));
         TempPrice=price;
 
         quantityProductPage.setText("1");
@@ -356,7 +356,7 @@ public class ProductFragment extends Fragment {
     }
     private ProductModel getProductObject() {
 
-        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString().replace("SAR","")), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpireDate(),m_ProductModel.getCurrentStock(),m_ProductModel.getInitStock());
+        return new ProductModel(m_ProductModel.getId(),m_ProductModel.getTitle(),Integer.valueOf(productPrice.getText().toString().replace(" SAR","")), m_ProductModel.getDesc(), m_ProductModel.getImage(),Integer.parseInt(quantityProductPage.getText().toString()), userEmail, userMobile,m_ProductModel.getExpireDate(),m_ProductModel.getCurrentStock(),m_ProductModel.getInitStock());
 
     }
 
@@ -437,7 +437,7 @@ public class ProductFragment extends Fragment {
             quantityProductPage.setText(String.valueOf(quantity));
             TempPrice=TempPrice-price;
 
-            productPrice.setText(TempPrice+"SAR");
+            productPrice.setText(TempPrice+" SAR");
         }
     }
 
@@ -447,7 +447,7 @@ public class ProductFragment extends Fragment {
             quantity++;
             quantityProductPage.setText(String.valueOf(quantity));
             TempPrice=TempPrice+price;
-            productPrice.setText(TempPrice+"SAR");
+            productPrice.setText(TempPrice+" SAR");
 
         } else {
             Toasty.error(getActivity(), "Product Count Must be less than 500", Toast.LENGTH_LONG).show();

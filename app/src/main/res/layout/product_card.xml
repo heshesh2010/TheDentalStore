@@ -45,10 +45,10 @@
             <com.lid.lib.LabelImageView
                 android:id="@+id/stockLableImage"
                 app:label_orientation="RIGHT_TOP"
-                app:label_text="High order"
+                app:label_text="Best seller"
                 app:label_strokeColor="@android:color/transparent"
                 android:visibility="invisible"
-                app:label_backgroundColor="#C2185B"
+                app:label_backgroundColor="@color/green_light"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginStart="8dp" />

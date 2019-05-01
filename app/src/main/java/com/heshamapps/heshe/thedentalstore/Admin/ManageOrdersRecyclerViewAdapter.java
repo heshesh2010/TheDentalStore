@@ -109,7 +109,7 @@ public class ManageOrdersRecyclerViewAdapter extends
         BackgroundMail.newBuilder(context)
                 .withUsername("shreen.ods2019@gmail.com")
                 .withPassword("$S15#07#1997m$")
-                .withMailto(session.getUserDetails().get(KEY_EMAIL))
+                .withMailto(order.getPlaced_user_email())
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("order placed")
                 .withBody("your order id = " + order.getOrderid() +" is " + OrderCase)

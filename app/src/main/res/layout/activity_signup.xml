@@ -9,6 +9,17 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/odsbackgroundscreen"
     tools:context=".Login.SignupActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/loginlogo"
+        android:contentDescription="@string/logo"
+        tools:ignore="ContentDescription" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="30dp"
@@ -20,6 +31,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
 

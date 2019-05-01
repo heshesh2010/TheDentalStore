@@ -10,15 +10,7 @@
     tools:context=".Login.LoginActivity">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/loginlogo"
-        android:contentDescription="@string/logo"
-        tools:ignore="ContentDescription" />
+
 
 
     <TextView
@@ -31,11 +23,11 @@
 
     <EditText
         android:id="@+id/usernameET"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="25dp"
         android:ems="10"
         android:layout_toEndOf="@+id/textView2"
         android:hint="@string/loginActivity_usernameET"
@@ -56,11 +48,11 @@
 
     <EditText
         android:id="@+id/passwordET"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="25dp"
         android:ems="10"
         android:inputType="textPassword"
         android:layout_below="@+id/usernameET"

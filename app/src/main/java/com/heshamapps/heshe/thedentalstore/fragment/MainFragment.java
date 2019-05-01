@@ -107,7 +107,7 @@ public class MainFragment extends Fragment {
         CompoundButton.OnCheckedChangeListener filterChipListener = (buttonView, isChecked) -> {
             Log.i("TAG", buttonView.getText() + "");
             if (buttonView.isChecked()) {
-                updaterecycleview(buttonView.getText());
+                updaterecycleview(buttonView.getText().toString());
             }
 
         };
@@ -163,7 +163,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void updaterecycleview(CharSequence text) {
+    private void updaterecycleview(String text) {
         //     ((EditText) v).setEnabled(false);
         if (text.toString().equalsIgnoreCase("all")) {
             adapter.stopListening();
@@ -176,7 +176,7 @@ public class MainFragment extends Fragment {
 
 
             adapter.stopListening();
-            query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("type", text);
+            query = FirebaseFirestore.getInstance().collection("products").whereEqualTo("type", text.replaceAll("\\s",""));
 
             getProductsList();
             adapter.startListening();
@@ -206,7 +206,7 @@ public class MainFragment extends Fragment {
 
                 productHolder.setIsRecyclable(false);
 
-                productHolder.textPrice.setText(String.valueOf(productModel.getPrice()) + "SAR");
+                productHolder.textPrice.setText(String.valueOf(productModel.getPrice()) + " SAR");
                 productHolder.textTitle.setText(productModel.getTitle());
                 Glide.with(getActivity())
                         .load(productModel.getImage())
