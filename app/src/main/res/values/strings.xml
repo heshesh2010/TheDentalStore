@@ -88,6 +88,7 @@
         <item>In Progress</item>
         <item>Delivered</item>
         <item>Cancelled</item>
+        <item>Refunded</item>
     </string-array>
 
 </resources>

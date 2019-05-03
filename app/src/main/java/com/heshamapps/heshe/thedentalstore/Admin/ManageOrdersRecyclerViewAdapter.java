@@ -1,6 +1,7 @@
 package com.heshamapps.heshe.thedentalstore.Admin;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 import com.heshamapps.heshe.thedentalstore.Model.PlacedOrderModel;
+import com.heshamapps.heshe.thedentalstore.Model.ProductModel;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
+import com.heshamapps.heshe.thedentalstore.util.MyCallback;
 
 import java.util.List;
 
@@ -74,6 +84,12 @@ public class ManageOrdersRecyclerViewAdapter extends
             case "Cancelled":
                 SpinnerPos=2;
                 break;
+            case "Refunded":
+                SpinnerPos=3;
+                break;
+
+
+
         }
         holder.orderId.setText(order.getOrderid());
         holder.payment.setText(order.getPayment_mode());
@@ -81,6 +97,7 @@ public class ManageOrdersRecyclerViewAdapter extends
         holder.total_amount.setText("" + order.getTotal_amount());
         holder.delivery_date.setText(order.getDelivery_date());
         holder.status.setSelection(SpinnerPos);
+
 
 
         holder.delete_order.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +114,7 @@ public class ManageOrdersRecyclerViewAdapter extends
             public void onClick(View view) {
 
                 sendEmail(order,holder.status.getSelectedItem().toString());
-                saveOrder(order.getOrderid(), itemPos,holder.status.getSelectedItem().toString());
+                saveOrder(order,holder.status.getSelectedItem().toString());
             }
         });
 
@@ -177,17 +194,91 @@ public class ManageOrdersRecyclerViewAdapter extends
 
 
 
-    private void saveOrder(String docId, final int position,String status) {
-        firestoreDB.collection("orders").document(docId).update( "status", status)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void saveOrder(PlacedOrderModel orderModel, String status) {
+        firestoreDB.collection("orders").document(orderModel.getOrderid()).update( "status", status)
+                .addOnCompleteListener(task -> {
+                    notifyDataSetChanged();
+                    Toast.makeText(context,
+                            "order has been Updated",
+                            Toast.LENGTH_SHORT).show();
+                });
+        if(status.equals("Refunded")||status.equals("Cancelled")){
+            updateStock(orderModel);
+        }
+    }
+
+
+    private void readData(PlacedOrderModel orderModel, MyCallback myCallback){
+
+
+
+
+        FirebaseFirestore.getInstance().collection("orders").document(orderModel.getOrderid()).collection("items")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        notifyDataSetChanged();
-                        Toast.makeText(context,
-                                "order document has been Updated",
-                                Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ProductModel productModel = document.toObject(ProductModel.class);
+                                myCallback.onCallback(  productModel.getId());
+                               // Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                        //    Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
                     }
                 });
+
+
+
     }
+
+    private void updateStock(PlacedOrderModel orderModel){
+
+
+
+
+
+        readData(orderModel,new MyCallback() {
+
+            @Override
+            public void onCallback(String productID) {
+
+
+                // first get current stock then - from it
+                final DocumentReference sfDocRef = firestoreDB.collection("products").document(productID);
+
+
+                firestoreDB.runTransaction((Transaction.Function<Void>) transaction -> {
+                    DocumentSnapshot snapshot = transaction.get(sfDocRef);
+
+                    // Note: this could be done without a transaction
+                    //       by updating the population using FieldValue.increment()
+                    int newPopulation = Integer.valueOf(snapshot.get("currentStock").toString());
+
+                    transaction.update(sfDocRef, "currentStock", newPopulation+Integer.parseInt(orderModel.getNo_of_items()));
+
+                    // Success
+                    return null;
+                }).addOnSuccessListener(aVoid -> Log.d("TAG", "Transaction success!"))
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("TAG", "Transaction failure.", e);
+                            }
+                        });
+
+            }
+        });
+
+
+
+
+
+    }
+
+
+
 
 }

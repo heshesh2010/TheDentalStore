@@ -19,6 +19,8 @@ public class ProductModel implements Serializable, Parcelable {
 
     private String title , image , desc ,userEmail ,userMobile ,expireDate ,id;
     private int price  ,no_of_items ,currentStock , initStock;
+
+
 private boolean isExpired;
     public ProductModel(String id , String title, int price, String desc , String image, int no_of_items, String userEmail , String userMobile, String expireDate, int currentStock , int initStock) {
         this.id=id;
