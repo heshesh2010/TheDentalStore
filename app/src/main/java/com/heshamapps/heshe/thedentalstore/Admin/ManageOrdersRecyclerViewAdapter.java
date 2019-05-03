@@ -71,6 +71,7 @@ public class ManageOrdersRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(ManageOrdersRecyclerViewAdapter.ViewHolder holder, int position) {
+        
         final int itemPos = position;
         final PlacedOrderModel order = ordersList.get(position);
 
@@ -84,13 +85,9 @@ public class ManageOrdersRecyclerViewAdapter extends
             case "Cancelled":
                 SpinnerPos=2;
                 break;
-            case "Refunded":
-                SpinnerPos=3;
-                break;
-
-
 
         }
+
         holder.orderId.setText(order.getOrderid());
         holder.payment.setText(order.getPayment_mode());
         holder.numberOfItems.setText(order.getNo_of_items());
@@ -103,9 +100,10 @@ public class ManageOrdersRecyclerViewAdapter extends
         holder.delete_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                updateStock(order);
                 sendEmail(order,"Deleted");
+                deleteOrder(order, itemPos);
 
-                deleteOrder(order.getOrderid(), itemPos);
             }
         });
 
@@ -127,8 +125,9 @@ public class ManageOrdersRecyclerViewAdapter extends
                 .withUsername("shreen.ods2019@gmail.com")
                 .withPassword("$S15#07#1997m$")
                 .withMailto(order.getPlaced_user_email())
+                .withMailto("shreen.ods2019@gmail.com")
                 .withType(BackgroundMail.TYPE_PLAIN)
-                .withSubject("order placed")
+                .withSubject("order "+OrderCase)
                 .withBody("your order id = " + order.getOrderid() +" is " + OrderCase)
                 .withOnSuccessCallback(() -> {
                     //do some magic
@@ -176,11 +175,14 @@ public class ManageOrdersRecyclerViewAdapter extends
 
 
 
-    private void deleteOrder(String docId, final int position) {
-        firestoreDB.collection("orders").document(docId).delete()
+    private void deleteOrder(PlacedOrderModel orderModel, final int position) {
+        firestoreDB.collection("orders").document(orderModel.getOrderid()).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+
+
+
                         ordersList.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, ordersList.size());
@@ -195,6 +197,7 @@ public class ManageOrdersRecyclerViewAdapter extends
 
 
     private void saveOrder(PlacedOrderModel orderModel, String status) {
+
         firestoreDB.collection("orders").document(orderModel.getOrderid()).update( "status", status)
                 .addOnCompleteListener(task -> {
                     notifyDataSetChanged();
@@ -202,7 +205,7 @@ public class ManageOrdersRecyclerViewAdapter extends
                             "order has been Updated",
                             Toast.LENGTH_SHORT).show();
                 });
-        if(status.equals("Refunded")||status.equals("Cancelled")){
+        if(status.equals("Cancelled")){
             updateStock(orderModel);
         }
     }
@@ -224,8 +227,6 @@ public class ManageOrdersRecyclerViewAdapter extends
                                 myCallback.onCallback(  productModel.getId());
                                // Log.d(TAG, document.getId() + " => " + document.getData());
                             }
-                        } else {
-                        //    Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });

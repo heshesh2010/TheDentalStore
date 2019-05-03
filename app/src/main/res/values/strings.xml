@@ -82,13 +82,12 @@
     <string name="search_on_titles">search on titles</string>
     <string name="confirm_password">confirm password</string>
     <string name="logo">logo</string>
-    <string name="stock">Stock:</string>
+    <string name="stock">Stock: </string>
 
     <string-array name="status">
         <item>In Progress</item>
         <item>Delivered</item>
         <item>Cancelled</item>
-        <item>Refunded</item>
     </string-array>
 
 </resources>
