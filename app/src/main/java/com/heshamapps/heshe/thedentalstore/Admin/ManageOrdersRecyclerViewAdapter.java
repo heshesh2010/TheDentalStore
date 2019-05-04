@@ -71,7 +71,7 @@ public class ManageOrdersRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(ManageOrdersRecyclerViewAdapter.ViewHolder holder, int position) {
-        
+
         final int itemPos = position;
         final PlacedOrderModel order = ordersList.get(position);
 
@@ -100,12 +100,13 @@ public class ManageOrdersRecyclerViewAdapter extends
         holder.delete_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateStock(order);
+             //   updateStock(order);
                 sendEmail(order,"Deleted");
                 deleteOrder(order, itemPos);
 
             }
         });
+
 
         holder.save_order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +125,7 @@ public class ManageOrdersRecyclerViewAdapter extends
         BackgroundMail.newBuilder(context)
                 .withUsername("shreen.ods2019@gmail.com")
                 .withPassword("$S15#07#1997m$")
-                .withMailto(order.getPlaced_user_email())
-                .withMailto("shreen.ods2019@gmail.com")
+                .withMailto("shreen.ods2019@gmail.com"+","+order.getPlaced_user_email())
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("order "+OrderCase)
                 .withBody("your order id = " + order.getOrderid() +" is " + OrderCase)

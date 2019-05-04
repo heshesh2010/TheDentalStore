@@ -276,13 +276,13 @@ public class ProductFragment extends Fragment {
                 }
 
             } else {
-                Toasty.error(getActivity(), "you must choose quantity ", Toast.LENGTH_SHORT).show();
+                Toasty.error(getActivity(), "you must choose quantity less than current stock", Toast.LENGTH_SHORT).show();
 
             }
         }
         else{
 
-            Toasty.error(getActivity(), "you must choose quantity less than current stock", Toast.LENGTH_SHORT).show();
+            Toasty.error(getActivity(), "you must choose quantity ", Toast.LENGTH_SHORT).show();
 
         }
 
