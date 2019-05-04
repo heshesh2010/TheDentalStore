@@ -83,7 +83,13 @@
     <string name="confirm_password">confirm password</string>
     <string name="logo">logo</string>
     <string name="stock">Stock: </string>
-    <string name="aboutString">Online Dental Store (O.D.S) Sherin Mohamed Abdelrahman 201500913 TM471: Final Year Project, May 2019 Supervisor: Dr. Daniah AlMadani</string>
+    <string name="aboutString">Online Dental Store (O.D.S) \n
+
+        Sherin Mohamed Abdelrahman 201500913 \n
+
+        TM471: Final Year Project, May 2019 \n
+
+        Supervisor: Dr. Daniah AlMadani \n </string>
 
     <string-array name="status">
         <item>In Progress</item>

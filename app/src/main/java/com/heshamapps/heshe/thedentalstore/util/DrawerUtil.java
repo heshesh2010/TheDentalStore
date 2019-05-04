@@ -301,7 +301,7 @@ return photoUrl;
 
             // about
             case 9:
-                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).addToBackStack(null).commit();
+                 activity.getFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).addToBackStack(null).commit();
                 Toast.makeText(activity, "About menu selected", Toast.LENGTH_LONG).show();
                 break;
             // dental Store
