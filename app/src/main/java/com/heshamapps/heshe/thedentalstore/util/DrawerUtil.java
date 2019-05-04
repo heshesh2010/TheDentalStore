@@ -21,6 +21,7 @@ import com.heshamapps.heshe.thedentalstore.Login.editProfileActivity;
 import com.heshamapps.heshe.thedentalstore.R;
 import com.heshamapps.heshe.thedentalstore.fragment.CartFragment;
 import com.heshamapps.heshe.thedentalstore.fragment.MainFragment;
+import com.heshamapps.heshe.thedentalstore.fragment.aboutFragment;
 import com.heshamapps.heshe.thedentalstore.usersession.UserSession;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -300,7 +301,7 @@ return photoUrl;
 
             // about
             case 9:
-                //  activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).commit();
+                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,  new aboutFragment()).addToBackStack(null).commit();
                 Toast.makeText(activity, "About menu selected", Toast.LENGTH_LONG).show();
                 break;
             // dental Store
